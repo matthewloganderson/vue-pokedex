@@ -8,9 +8,16 @@ export const PokemonEndpoints = {
 	}
 }
 
-export const PokemonTypeEndpoints ={
+export const PokemonTypeEndpoints = {
 	getPokemonType: function (nameOrId) {
 		return `/type/${nameOrId}`
 	},
 	getAllPokemonTypes: '/type'
+}
+
+export const PokemonAbilityEndpoints = {
+	getAbility: function (nameOrId) {
+		return `/ability/${nameOrId}`
+	}, 
+	getAllAbilities: '/ability'
 }

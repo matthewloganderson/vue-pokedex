@@ -1,5 +1,5 @@
 <script>
-import { PokemonEndpoints } from '@/constants/Endpoints'
+import { PokemonEndpoints, PokemonAbilityEndpoints } from '@/constants/Endpoints'
 import ApiService from '@/mixins/ApiService'
 export default {
 	name: 'ServicePokemon',
@@ -12,14 +12,20 @@ export default {
 		pokemonSpeciesIdentifier: {
 			type: [String, Number],
 			default: null
+		},
+		pokemonAbilityIdentifier: {
+			type: [String, Number],
+			default: null
 		}
 
 	},
 	data() {
 		return {
 			pokemonEndpoints: PokemonEndpoints,
+			abilityEndpoints: PokemonAbilityEndpoints,
 			pokemon: {}, 
-			pokemonSpecies: {}
+			pokemonSpecies: {},
+			ability: {}
 		}
 	},
 	watch: {
@@ -28,6 +34,9 @@ export default {
 		},
 		pokemonSpeciesIdentifier: {
 			handler: 'getPokemonSpecies'
+		},
+		pokemonAbilityIdentifier: {
+			handler: 'getAbility'
 		}
 	},
 	computed: {
@@ -59,6 +68,21 @@ export default {
 						this.pokemonEndpoints.getPokemonSpecies (this.pokemonSpeciesIdentifier)
 					)
 					this.setLocalValue ('pokemonSpecies', response)
+					this.$emit ('success', response)
+				} catch (error) {
+					this.$emit ('error', error)
+					this.handleFeedback()
+				}
+			}
+		},
+		async getAbility () {
+			if (this.pokemonAbilityIdentifier) {
+				try {
+					const response = await this.askProfessor (
+						'get', 
+						this.abilityEndpoints.getAbility(this.pokemonAbilityIdentifier)
+					)
+					this.setLocalValue ('ability', response)
 					this.$emit ('success', response)
 				} catch (error) {
 					this.$emit ('error', error)

@@ -1,0 +1,49 @@
+<template>
+	<b-row>
+		<b-col>
+			<b-row align-v="center">
+				<b-col cols="12" md="6" lg="5">
+					<b-form-group label="Select Description" label-size="sm">
+						<b-form-select v-model="selectedDescription">
+							<option v-for="(description, index) in descriptions" :key="index" :value="index">{{ capitalizeRemoveHyphens(description.version.name) }}</option>
+						</b-form-select>
+					</b-form-group>
+				</b-col>
+				<b-col>
+					<p>
+						{{ descriptions[selectedDescription].flavor_text }}
+					</p>
+				</b-col>
+			</b-row>
+		</b-col>
+	</b-row>
+</template>
+
+<script>
+import _ from 'lodash'
+export default {
+	name: 'AppPokemonDescriptionPicker',
+	props: {
+		descriptions: {
+			type: Array,
+			default: () => {
+				return []
+			}
+		},
+	},
+	data () {
+		return {
+			selectedDescription: 0
+		}
+	},
+	methods: {
+		capitalizeRemoveHyphens (text) {
+			return _.capitalize (_.replace (text, '-', ' '))
+		}
+	}
+}
+</script>
+
+<style>
+
+</style>
