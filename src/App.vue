@@ -6,7 +6,7 @@
 					<app-header />
 				</b-col>
 			</b-row>
-			<b-row>
+			<b-row class="ml-3 mr-3">
 				<b-col>
 					<router-view></router-view>
 				</b-col>

@@ -29,7 +29,8 @@ export default {
 			searchType: 'pokemon',
 			searchTerm: null
 		}
-	}
+	},
+	computed: {}
 }
 </script>
 

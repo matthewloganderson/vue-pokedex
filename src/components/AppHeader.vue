@@ -1,5 +1,5 @@
 <template>
-	<b-row class="bg-dark pl-3 pr-3">
+	<b-row class="bg-dark pl-3 pr-3 mb-5">
 		<b-col>
 			<b-row align-v="center">
 				<b-col>

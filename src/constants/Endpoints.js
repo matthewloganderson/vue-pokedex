@@ -2,7 +2,10 @@ export const PokemonEndpoints = {
 	getPokemon: function (nameOrId) {
 		return `/pokemon/${nameOrId}`
 	},
-	getAllPokemon: '/pokemon'
+	getAllPokemon: '/pokemon',
+	getPokemonSpecies: function (nameOrId) {
+		return `/pokemon-species/${nameOrId}`
+	}
 }
 
 export const PokemonTypeEndpoints ={
