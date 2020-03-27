@@ -3,13 +3,12 @@
 		<b-container class="ml-0 mr-0 pl-0 pr-0" fluid>
 			<b-row no-gutters>
 				<b-col>
-					<page-header />
+					<app-header />
 				</b-col>
 			</b-row>
-			<router-view />
 			<b-row>
 				<b-col>
-					<page-footer />
+					<router-view></router-view>
 				</b-col>
 			</b-row>
 		</b-container>
@@ -17,12 +16,12 @@
 </template>
 
 <script>
-import PageHeader from './components/PageHeader'
+import AppHeader from './components/AppHeader'
 
 export default {
   name: 'App',
   components: {
-    PageHeader
+    AppHeader,
   }
 }
 </script>
