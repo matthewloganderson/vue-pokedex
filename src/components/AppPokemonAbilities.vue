@@ -1,14 +1,44 @@
 <template>
-	<b-row>
-		<b-col v-for="(ability, index) in abilities" :key="index">
+	<b-row class="mt-1">
+		<b-col class="mb-4" cols="12" md="6" v-for="(ability, index) in abilities" :key="index">
 			<service-pokemon v-slot="{ability: abilityDetails}" operation="getAbility" :pokemonAbilityIdentifier="ability.ability.name">
-				{{abilityDetails.effect_entries[0].effect}}
+				<b-card class="h-100">
+					<b-row class="mb-4">
+						<b-col>
+							<b-link>
+								<h5>
+									{{ removeHyphenCapitalize(ability.ability.name) }}
+								</h5>
+							</b-link>
+							<p v-if="Object.keys (abilityDetails).length > 0">
+								{{abilityDetails.effect_entries[0].short_effect}}
+							</p>
+							<b-link @click="toggleCollapse(`${ability.ability.name}__collapse`)">
+								More 
+								<font-awesome-icon icon="chevron-down" class="ml-2" />
+							</b-link>
+							<b-collapse :id="`${ability.ability.name}__collapse`">
+								<b-row class="mt-2">
+									<b-col>
+										<h6>
+											Detailed Info
+										</h6>
+										<p v-if="Object.keys (abilityDetails).length > 0">
+											{{abilityDetails.effect_entries[0].effect}}
+										</p>
+									</b-col>
+								</b-row>
+							</b-collapse>
+						</b-col>
+					</b-row>
+				</b-card>
 			</service-pokemon>
 		</b-col>
 	</b-row>
 </template>
 
 <script>
+import _ from 'lodash'
 import ServicePokemon from './ServicePokemon'
 export default {
 	name: 'AppPokemonAbilities',
@@ -23,6 +53,14 @@ export default {
 			},
 		}
 	},
+	methods: {
+		removeHyphenCapitalize (text) {
+			return _.capitalize (_.replace (text, '-', ' '))
+		},
+		toggleCollapse (collapseId) {
+			this.$root.$emit('bv::toggle::collapse', collapseId)
+		}
+	}
 }
 </script>
 
