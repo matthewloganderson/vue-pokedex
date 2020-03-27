@@ -1,7 +1,7 @@
 <template>
 	<service-pokemon @success="pokemonDetails = $event" operation="getPokemon" :pokemonIdentifier="$route.params.identifier">
 		<b-row align-h="center">
-				<b-col cols="12" md="10" lg="11" xl="12" v-if="pokemonDetails">
+				<b-col cols="12" md="10" lg="9" xl="8" v-if="pokemonDetails">
 					<service-pokemon @success="pokemonSpeciesDetails = $event" operation="getPokemonSpecies" :pokemonSpeciesIdentifier="pokemonDetails.name">
 						<b-card no-body>
 							<b-card-header>
@@ -20,10 +20,17 @@
 							</b-row>
 							</b-card-header>
 							<b-card-body>
-								<b-row>
+								<b-row align-v="center" v-if="formattedSpeciesDetails">
+									<b-col cols="12" md="6" lg="5">
+										<b-form-group label="Select Description" label-size="sm">
+											<b-form-select v-model="selectedLongDescription">
+												<option v-for="(description, index) in formattedSpeciesDetails.longDescriptions" :key="index" :value="index">{{ capitalizeRemoveHyphens(description.version.name) }}</option>
+											</b-form-select>
+										</b-form-group>
+									</b-col>
 									<b-col>
 										<p>
-
+											{{ formattedSpeciesDetails.longDescriptions[selectedLongDescription].flavor_text }}
 										</p>
 									</b-col>
 								</b-row>
@@ -36,6 +43,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { PokemonSpeciesDetails } from '@/classes/PokemonSpeciesDetails'
 import { PokemonDetails } from '@/classes/PokemonDetails'
 import ServicePokemon from './ServicePokemon'
@@ -47,7 +55,8 @@ export default {
 	data () {
 		return {
 			pokemonDetails: null,
-			pokemonSpeciesDetails: null
+			pokemonSpeciesDetails: null,
+			selectedLongDescription: 0
 		}
 	},
 	computed: {
@@ -64,6 +73,11 @@ export default {
 			} else {
 				return null
 			}
+		}
+	},
+	methods: {
+		capitalizeRemoveHyphens (text) {
+			return _.capitalize (_.replace (text, '-', ' '))
 		}
 	}
 }
