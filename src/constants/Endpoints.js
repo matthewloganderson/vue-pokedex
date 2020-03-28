@@ -22,7 +22,7 @@ export const PokemonAbilityEndpoints = {
 	getAllAbilities: '/ability'
 }
 
-export const MoveEndoints = {
+export const MoveEndpoints = {
 	getMove: function (nameOrId) {
 		return `/move/${nameOrId}`
 	},

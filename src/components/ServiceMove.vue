@@ -34,7 +34,7 @@ export default {
 					this.$emit ('success', response)
 				} catch (error) {
 					this.$emit ('error', error)
-					this.handleFeedback()
+					this.handleError()
 				}
 			} else {
 				this.handleError('Professor Oak does not know about this pokemon yet!')
@@ -47,7 +47,7 @@ export default {
 					this.moveEndpoints.getAllMoves
 				)
 				this.setLocalValue ('moves', response)
-				this.$emit ('success', resonse)
+				this.$emit ('success', response)
 			} catch (error) {
 				this.$emit ('error', error)
 				this.handleError()

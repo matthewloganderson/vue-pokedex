@@ -8,6 +8,7 @@ export const PokemonDetails = class {
 		this.sprites = _.omitBy (pokemonDetails.sprites, _.isEmpty)
 		this.types = _.sortBy (pokemonDetails.types, 'slot')
 		this.stats = pokemonDetails.stats
-		this.abilities = _.sortBy(pokemonDetails.abilities, 'slot')
+		this.abilities = _.sortBy(pokemonDetails.abilities, 'slot'),
+		this.moves = pokemonDetails.moves
 	}
 }

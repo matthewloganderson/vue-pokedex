@@ -45,16 +45,16 @@
 											<app-pokemon-abilities v-if="formattedDetails" :abilities="formattedDetails.abilities" />
 										</b-col>
 									</b-row>
-									<b-row>
+									<b-row class="mb-3">
 										<b-col>
 											<h5 class="pb-2 border-bottom">
-												{{ formattedDetails.name }}'s Moveset
+												Moves {{ formattedDetails.name }} Can Learn
 											</h5>
 										</b-col>
 									</b-row>
 									<b-row class="mb-4">
 										<b-col>
-											<app-pokemon-abilities v-if="formattedDetails" :abilities="formattedDetails.abilities" />
+											<app-pokemon-moves v-if="formattedDetails" :moves="formattedDetails.moves" />
 										</b-col>
 									</b-row>
 								</b-card-body>
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import AppPokemonMoves from './AppPokemonMoves'
 import AppPokemonAbilities from './AppPokemonAbilities'
 import AppPokemonStats from './AppPokemonStats'
 import PokemonTypes from '@/constants/PokemonTypes'
@@ -82,7 +83,8 @@ export default {
 		AppPokemonDescriptionPicker,
 		AppPokemonBasicDetails,
 		AppPokemonStats,
-		AppPokemonAbilities
+		AppPokemonAbilities,
+		AppPokemonMoves
 	},
 	data () {
 		return {
