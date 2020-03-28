@@ -45,6 +45,18 @@
 											<app-pokemon-abilities v-if="formattedDetails" :abilities="formattedDetails.abilities" />
 										</b-col>
 									</b-row>
+									<b-row>
+										<b-col>
+											<h5 class="pb-2 border-bottom">
+												{{ formattedDetails.name }}'s Moveset
+											</h5>
+										</b-col>
+									</b-row>
+									<b-row class="mb-4">
+										<b-col>
+											<app-pokemon-abilities v-if="formattedDetails" :abilities="formattedDetails.abilities" />
+										</b-col>
+									</b-row>
 								</b-card-body>
 							</b-card>
 						</div>

@@ -21,3 +21,10 @@ export const PokemonAbilityEndpoints = {
 	}, 
 	getAllAbilities: '/ability'
 }
+
+export const MoveEndoints = {
+	getMove: function (nameOrId) {
+		return `/move/${nameOrId}`
+	},
+	getAllMoves: '/move'
+}

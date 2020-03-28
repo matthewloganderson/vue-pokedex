@@ -39,9 +39,6 @@ export default {
 			handler: 'getAbility'
 		}
 	},
-	computed: {
-
-	},
 	methods: {
 		async getPokemon () {
 			if (this.pokemonIdentifier) {
