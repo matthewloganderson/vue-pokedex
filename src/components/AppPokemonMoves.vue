@@ -36,13 +36,13 @@
 				<b-col>
 					<b-list-group class="mb-3" v-if="moveChunks.length > 0">
 						<b-list-group-item class="d-none d-md-block">
-							<b-row>
+							<b-row align-h="center">
 								<b-col cols="12" md="2" v-for="(heading, index) in ['Move Name', 'Accuracy', 'PP', 'Power', 'Move Type']" :key="index" :class="index + 1 < 5 ? 'border-right text-center' : 'text-center'">
 									<h6>
 										{{heading}}
 									</h6>
 								</b-col>
-								<b-col class="text-center border-left d-none d-md-flex" v-if="selectedLearnMethod === 'level-up' && selectedGame">
+								<b-col class="text-center border-left d-none d-md-inline" v-if="selectedLearnMethod === 'level-up' && selectedGame">
 									<h6>
 										Level
 									</h6>
@@ -51,7 +51,7 @@
 						</b-list-group-item>
 						<b-list-group-item v-for="(move, index) in moveChunks[currentMoveChunk]" :key="index"> 
 							<service-move v-slot="{ move: moveDetails }" operation="getMove" :moveIdentifier="move.move.name">
-								<b-row>
+								<b-row align-h="center">
 									<b-col cols="12" md="2" class="border-right text-center">
 										<b-link>
 											<span class="font-weight-bold">

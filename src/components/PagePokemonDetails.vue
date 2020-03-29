@@ -2,7 +2,7 @@
 	<service-pokemon @success="pokemonDetails = $event" operation="getPokemon" :pokemonIdentifier="$route.params.identifier">
 		<b-row align-h="center">
 				<b-col cols="12" md="10" lg="9" xl="8" v-if="pokemonDetails">
-					<service-pokemon @success="pokemonSpeciesDetails = $event" operation="getPokemonSpecies" :pokemonSpeciesIdentifier="pokemonDetails.name">
+					<service-pokemon @success="pokemonSpeciesDetails = $event" operation="getPokemonSpecies" :pokemonSpeciesIdentifier="pokemonDetails.species.name">
 						<div :style="typeBorderStyle" class="p-1 rounded">
 							<b-card class="border-0 bg-white" no-body>
 								<b-card-header>
@@ -19,6 +19,18 @@
 									<b-row class="mb-4">
 										<b-col>
 											<app-pokemon-description-picker v-if="formattedSpeciesDetails" :descriptions="formattedSpeciesDetails.longDescriptions" />
+										</b-col>
+									</b-row>
+									<b-row class="mb-2" v-if="formattedSpeciesDetails && formattedSpeciesDetails.variants.length > 1">
+										<b-col>
+											<h5 class="pb-2 border-bottom">
+												{{ formattedDetails.name }}'s Forms
+											</h5>
+										</b-col>
+									</b-row>
+									<b-row class="mb-4" v-if="formattedSpeciesDetails && formattedSpeciesDetails.variants.length > 1">
+										<b-col>
+											<app-pokemon-variants-picker :variants="formattedSpeciesDetails.variants" />
 										</b-col>
 									</b-row>
 									<b-row>
@@ -57,6 +69,18 @@
 											<app-pokemon-moves v-if="formattedDetails" :moves="formattedDetails.moves" />
 										</b-col>
 									</b-row>
+									<b-row class="mb-3">
+										<b-col>
+											<h5 class="pb-2 border-bottom">
+												{{ formattedDetails.name }}'s Appearance
+											</h5>
+										</b-col>
+									</b-row>
+									<b-row class="mb-4">
+										<b-col>
+											<app-pokemon-appearance v-if="formattedDetails" :sprites="formattedDetails.sprites" />
+										</b-col>
+									</b-row>
 								</b-card-body>
 							</b-card>
 						</div>
@@ -67,6 +91,8 @@
 </template>
 
 <script>
+import AppPokemonVariantsPicker from './AppPokemonVariantsPicker'
+import AppPokemonAppearance from './AppPokemonAppearance'
 import AppPokemonMoves from './AppPokemonMoves'
 import AppPokemonAbilities from './AppPokemonAbilities'
 import AppPokemonStats from './AppPokemonStats'
@@ -84,7 +110,9 @@ export default {
 		AppPokemonBasicDetails,
 		AppPokemonStats,
 		AppPokemonAbilities,
-		AppPokemonMoves
+		AppPokemonMoves,
+		AppPokemonAppearance,
+		AppPokemonVariantsPicker
 	},
 	data () {
 		return {
