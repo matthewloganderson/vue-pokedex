@@ -19,6 +19,14 @@
 					<h5 v-if="Object.keys (species).length > 0" class="text-muted text-center text-md-left">
 						{{ species.description }}
 					</h5>
+					<h6>
+					<b-badge class="mr-2" variant="primary">
+						{{ pokemon.weight }}
+					</b-badge>
+					<b-badge variant="primary">
+						{{ pokemon.height }}
+					</b-badge>
+					</h6>
 				</b-col>
 				<b-col cols="12" md="auto" lg="auto" xl="auto" class="text-center text-md-left">
 					<app-pokemon-type-badge :pokemonType="type.type.name" v-for="(type, index) in pokemon.types" :key="index" :class="pokemon.types.length > 1 ? 'mb-2' : null" />

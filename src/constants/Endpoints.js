@@ -1,3 +1,4 @@
+import _ from 'lodash'
 export const PokemonEndpoints = {
 	getPokemon: function (nameOrId) {
 		return `/pokemon/${nameOrId}`
@@ -5,6 +6,9 @@ export const PokemonEndpoints = {
 	getAllPokemon: '/pokemon',
 	getPokemonSpecies: function (nameOrId) {
 		return `/pokemon-species/${nameOrId}`
+	},
+	getEvolutionChain: function (url) {
+		return `/evolution-chain/${_.replace (url, 'https://pokeapi.co/api/v2/evolution-chain/', '')}`
 	}
 }
 

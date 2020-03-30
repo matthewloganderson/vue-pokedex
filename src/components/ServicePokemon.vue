@@ -16,6 +16,10 @@ export default {
 		pokemonAbilityIdentifier: {
 			type: [String, Number],
 			default: null
+		},
+		evolutionChainUrl: {
+			type: String,
+			default: null,
 		}
 
 	},
@@ -25,7 +29,8 @@ export default {
 			abilityEndpoints: PokemonAbilityEndpoints,
 			pokemon: {}, 
 			pokemonSpecies: {},
-			ability: {}
+			ability: {},
+			evolutionChain: {}
 		}
 	},
 	watch: {
@@ -37,9 +42,29 @@ export default {
 		},
 		pokemonAbilityIdentifier: {
 			handler: 'getAbility'
+		},
+		evolutionChainUrl: {
+			handler: 'getEvolutionChain'
 		}
 	},
 	methods: {
+		async getEvolutionChain () {
+			if (this.evolutionChainUrl) {
+				try {
+					const response = await this.askProfessor (
+						'get',
+						this.pokemonEndpoints.getEvolutionChain (this.evolutionChainUrl)
+					)
+					this.setLocalValue ('evolutionChain', response)
+					this.$emit ('success', response)
+				} catch (error) {
+					this.$emit ('error', error)
+					this.handleError()
+				}
+			} else {
+				this.handleError ()
+			}
+		},
 		async getPokemon () {
 			if (this.pokemonIdentifier) {
 				try {
@@ -51,7 +76,7 @@ export default {
 				this.$emit ('success', response)
 				} catch (error) {
 					this.$emit ('error', error)
-					this.handleFeedback()
+					this.handleError()
 				}
 			} else {
 				this.handleError('Professor Oak does not know about this pokemon yet!')
@@ -68,7 +93,7 @@ export default {
 					this.$emit ('success', response)
 				} catch (error) {
 					this.$emit ('error', error)
-					this.handleFeedback()
+					this.handleError()
 				}
 			}
 		},
@@ -83,7 +108,7 @@ export default {
 					this.$emit ('success', response)
 				} catch (error) {
 					this.$emit ('error', error)
-					this.handleFeedback()
+					this.handleError()
 				}
 			}
 		}

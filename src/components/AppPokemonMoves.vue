@@ -140,7 +140,7 @@ export default {
 		return {
 			currentMoveChunk: 0,
 			selectedGame: null,
-			selectedLearnMethod: null
+			selectedLearnMethod: 'level-up'
 		}
 	},
 	computed: {

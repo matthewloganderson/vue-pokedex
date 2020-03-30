@@ -4,7 +4,7 @@
 				<b-col cols="12" md="10" lg="9" xl="8" v-if="pokemonDetails">
 					<service-pokemon @success="pokemonSpeciesDetails = $event" operation="getPokemonSpecies" :pokemonSpeciesIdentifier="pokemonDetails.species.name">
 						<div :style="typeBorderStyle" class="p-1 rounded">
-							<b-card class="border-0 bg-white" no-body>
+							<b-card v-if="formattedDetails && formattedSpeciesDetails" class="border-0 bg-white" no-body>
 								<b-card-header>
 									<app-pokemon-basic-details v-if="formattedDetails && formattedSpeciesDetails" :pokemon="formattedDetails" :species="formattedSpeciesDetails" />
 								</b-card-header>
@@ -21,16 +21,16 @@
 											<app-pokemon-description-picker v-if="formattedSpeciesDetails" :descriptions="formattedSpeciesDetails.longDescriptions" />
 										</b-col>
 									</b-row>
-									<b-row class="mb-2" v-if="formattedSpeciesDetails && formattedSpeciesDetails.variants.length > 1">
+									<b-row>
 										<b-col>
 											<h5 class="pb-2 border-bottom">
-												{{ formattedDetails.name }}'s Forms
+												{{ formattedDetails.name }}'s Evolution Chain
 											</h5>
 										</b-col>
 									</b-row>
-									<b-row class="mb-4" v-if="formattedSpeciesDetails && formattedSpeciesDetails.variants.length > 1">
+									<b-row class="mb-4">
 										<b-col>
-											<app-pokemon-variants-picker :variants="formattedSpeciesDetails.variants" />
+											<app-pokemon-evolution-chain :evolutionChainUrl="formattedSpeciesDetails.evolutionChain" />
 										</b-col>
 									</b-row>
 									<b-row>
@@ -81,6 +81,18 @@
 											<app-pokemon-appearance v-if="formattedDetails" :sprites="formattedDetails.sprites" />
 										</b-col>
 									</b-row>
+									<b-row class="mb-2" v-if="formattedSpeciesDetails && formattedSpeciesDetails.variants.length > 1">
+										<b-col>
+											<h5 class="pb-2 border-bottom">
+												{{ formattedDetails.name }}'s Forms
+											</h5>
+										</b-col>
+									</b-row>
+									<b-row class="mb-4" v-if="formattedSpeciesDetails && formattedSpeciesDetails.variants.length > 1">
+										<b-col>
+											<app-pokemon-variants-picker :variants="formattedSpeciesDetails.variants" />
+										</b-col>
+									</b-row>
 								</b-card-body>
 							</b-card>
 						</div>
@@ -91,6 +103,7 @@
 </template>
 
 <script>
+import AppPokemonEvolutionChain from './AppPokemonEvolutionChain'
 import AppPokemonVariantsPicker from './AppPokemonVariantsPicker'
 import AppPokemonAppearance from './AppPokemonAppearance'
 import AppPokemonMoves from './AppPokemonMoves'
@@ -112,7 +125,8 @@ export default {
 		AppPokemonAbilities,
 		AppPokemonMoves,
 		AppPokemonAppearance,
-		AppPokemonVariantsPicker
+		AppPokemonVariantsPicker,
+		AppPokemonEvolutionChain
 	},
 	data () {
 		return {

@@ -6,9 +6,9 @@
 					<b-row class="mb-4">
 						<b-col>
 							<b-link>
-								<h5>
+								<h6 class="font-weight-bold">
 									{{ removeHyphenCapitalize(ability.ability.name) }}
-								</h5>
+								</h6>
 							</b-link>
 							<p v-if="Object.keys (abilityDetails).length > 0">
 								{{abilityDetails.effect_entries[0].short_effect}}
