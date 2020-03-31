@@ -2,9 +2,9 @@
 	<b-row>
 		<b-col>
 			<b-row v-if="Object.keys (pokemon).length > 0" align-v="center" align-h="center">
-				<b-col cols="auto" md="auto" lg="auto" xl="auto">
+				<b-col class="text-center text-md-left" cols="12" md="auto" lg="auto" xl="auto">
 					<b-badge variant="dark" class="rounded mb-0 pb-0">
-						<h6>
+						<h6 class="mb-1">
 							#{{ pokemon.number }}
 						</h6>
 					</b-badge>
@@ -12,7 +12,7 @@
 				<b-col cols="4" md="2">
 					<b-img fluid :src="pokemon.sprites.front_default" />
 				</b-col>
-				<b-col cols="12" md="4">
+				<b-col class="text-center text-md-left" cols="12" md="4">
 					<h2 class="text-center text-md-left">
 						{{ pokemon.name }}
 					</h2>

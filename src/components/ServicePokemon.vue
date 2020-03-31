@@ -1,10 +1,14 @@
 <script>
-import { PokemonEndpoints, PokemonAbilityEndpoints } from '@/constants/Endpoints'
+import { PokemonEndpoints, PokemonAbilityEndpoints, PokemonTypeEndpoints } from '@/constants/Endpoints'
 import ApiService from '@/mixins/ApiService'
 export default {
 	name: 'ServicePokemon',
 	mixins: [ApiService],
 	props: {
+		typeIdentifier: {
+			type: [String, Number],
+			default: null,
+		},
 		pokemonIdentifier: {
 			type: [String, Number],
 			default: null
@@ -25,17 +29,19 @@ export default {
 	},
 	data() {
 		return {
+			typeEndpoints: PokemonTypeEndpoints,
 			pokemonEndpoints: PokemonEndpoints,
 			abilityEndpoints: PokemonAbilityEndpoints,
 			pokemon: {}, 
 			pokemonSpecies: {},
 			ability: {},
-			evolutionChain: {}
+			evolutionChain: {},
+			type: {}
 		}
 	},
 	watch: {
 		pokemonIdentifier: {
-			handler: 'getPokemon'
+			handler: 'getPokemon', 
 		},
 		pokemonSpeciesIdentifier: {
 			handler: 'getPokemonSpecies'
@@ -45,6 +51,9 @@ export default {
 		},
 		evolutionChainUrl: {
 			handler: 'getEvolutionChain'
+		},
+		typeIdentifier: {
+			handler: 'getType'
 		}
 	},
 	methods: {
@@ -67,10 +76,11 @@ export default {
 		},
 		async getPokemon () {
 			if (this.pokemonIdentifier) {
+				this.pokemon = {}
 				try {
-				const response = await this.askProfessor(
-					'get',
-					this.pokemonEndpoints.getPokemon(this.pokemonIdentifier)
+					const response = await this.askProfessor(
+						'get',
+						this.pokemonEndpoints.getPokemon(this.pokemonIdentifier)
 				)
 				this.setLocalValue('pokemon', response)
 				this.$emit ('success', response)
@@ -78,8 +88,6 @@ export default {
 					this.$emit ('error', error)
 					this.handleError()
 				}
-			} else {
-				this.handleError('Professor Oak does not know about this pokemon yet!')
 			}
 		},
 		async getPokemonSpecies () {
@@ -105,6 +113,21 @@ export default {
 						this.abilityEndpoints.getAbility(this.pokemonAbilityIdentifier)
 					)
 					this.setLocalValue ('ability', response)
+					this.$emit ('success', response)
+				} catch (error) {
+					this.$emit ('error', error)
+					this.handleError()
+				}
+			}
+		},
+		async getType() {
+			if (this.typeIdentifier) {
+				try {
+					const response = await this.askProfessor (
+						'get',
+						this.typeEndpoints.getPokemonType (this.typeIdentifier)
+					)
+					this.setLocalValue ('type', response)
 					this.$emit ('success', response)
 				} catch (error) {
 					this.$emit ('error', error)

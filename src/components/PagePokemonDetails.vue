@@ -23,14 +23,7 @@
 									</b-row>
 									<b-row>
 										<b-col>
-											<h5 class="pb-2 border-bottom">
-												{{ formattedDetails.name }}'s Evolution Chain
-											</h5>
-										</b-col>
-									</b-row>
-									<b-row class="mb-4">
-										<b-col>
-											<app-pokemon-evolution-chain :evolutionChainUrl="formattedSpeciesDetails.evolutionChain" />
+											<app-pokemon-evolution-chain :currentPokemon="pokemonDetails.species.name" :evolutionChainUrl="formattedSpeciesDetails.evolutionChain" />
 										</b-col>
 									</b-row>
 									<b-row>
@@ -93,6 +86,18 @@
 											<app-pokemon-variants-picker :variants="formattedSpeciesDetails.variants" />
 										</b-col>
 									</b-row>
+									<b-row class="mb-2" v-if="formattedDetails && formattedDetails.types.length > 0">
+										<b-col>
+											<h5 class="pb-2 border-bottom">
+												{{ formattedDetails.name }}'s Weaknesses & Resistances
+											</h5>
+										</b-col>
+									</b-row>
+									<b-row class="mb-4" v-if="formattedDetails && formattedDetails.types.length > 0">
+										<b-col>
+											<app-pokemon-damage-classes :types="formattedDetails.types" />
+										</b-col>
+									</b-row>
 								</b-card-body>
 							</b-card>
 						</div>
@@ -103,6 +108,7 @@
 </template>
 
 <script>
+import AppPokemonDamageClasses from './AppPokemonDamageClasses'
 import AppPokemonEvolutionChain from './AppPokemonEvolutionChain'
 import AppPokemonVariantsPicker from './AppPokemonVariantsPicker'
 import AppPokemonAppearance from './AppPokemonAppearance'
@@ -126,7 +132,8 @@ export default {
 		AppPokemonMoves,
 		AppPokemonAppearance,
 		AppPokemonVariantsPicker,
-		AppPokemonEvolutionChain
+		AppPokemonEvolutionChain,
+		AppPokemonDamageClasses
 	},
 	data () {
 		return {

@@ -36,9 +36,17 @@ export default {
 			selectedDescription: 0
 		}
 	},
+	watch: {
+		descriptions: {
+			handler: 'resetSelection'
+		}
+	},
 	methods: {
 		capitalizeRemoveHyphens (text) {
 			return _.capitalize (_.replace (text, '-', ' '))
+		},
+		resetSelection () {
+			this.selectedDescription = 0
 		}
 	}
 }
