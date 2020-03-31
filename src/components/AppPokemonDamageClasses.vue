@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import _ from 'lodash'
 import { PokemonTypeEndpoints } from '@/constants/Endpoints'
 import ApiService from '@/mixins/ApiService'
 import PokemonTypes from '@/constants/PokemonTypes'
@@ -40,19 +41,40 @@ export default {
 	},
 	computed: {
 		damageClasses () {
+			const allTypes = _.map (_.cloneDeep (this.typeData), 'name')
 			const damageClasses = {
 				weakTo: [],
 				resistantTo: [], 
 				neutralTo: []
 			}
 			if (Object.keys (this.type1).length > 0 && Object.keys (this.type2).length > 0) {
-				const type1DamageClasses = this.type1.damage_relations
-				const type2DamgeClasses = this.type2.damage_relations
-				return damageClasses
+				const type1 = this.type1.damage_relations
+				const type2 = this.type2.damage_relations
+				damageClasses.weakTo = _.uniq(_.map(type1.double_damage_from.concat(type2.double_damage_from), 'name'))
+				damageClasses.resistantTo = _.uniq(_.map (type1.half_damage_from.concat (type1.no_damage_from, type2.half_damage_from, type2.no_damage_from), 'name'))
+				damageClasses.weakTo.forEach (
+					weakness => {
+						if (damageClasses.resistantTo.find (resistance => resistance === weakness)) {
+							damageClasses.neutralTo.push (weakness)
+						}
+					}
+				)
+				const nonRepresentedTypes = _.difference (allTypes, damageClasses.weakTo.concat (damageClasses.neutralTo, damageClasses.resistantTo))
+				return {
+					weakTo: _.difference (damageClasses.weakTo, damageClasses.neutralTo),
+					resistantTo: _.difference (damageClasses.resistantTo, damageClasses.neutralTo),
+					neutralTo: damageClasses.neutralTo.concat (nonRepresentedTypes)
+				}
 			} else if (Object.keys (this.type1).length > 0 && Object.keys (this.type2).length < 1) {
-				return damageClasses
+				const type1 = this.type1.damage_relations
+				const nonRepresentedTypes = _.difference (type1.double_damage_from.concat (type1.half_damage_from, type1.no_damage_from))
+				return {
+					weakTo: type1.double_damage_from,
+					resistantTo: type1.half_damage_from.concat (type1.no_damage_from),
+					neutralTo: nonRepresentedTypes
+				}
 			} else {
-				return damageClasses
+				return {} 
 			}
 		}
 	},
