@@ -1,7 +1,7 @@
 <template>
-	<service-pokemon @success="type = $event" operation="getType" :typeIdentifier="$route.params.type">
+	<service-pokemon v-if="$route.params.type" @success="type = $event" operation="getType" :typeIdentifier="$route.params.type">
 		<b-row align-h="center">
-			<b-col v-if="Object.keys (type).length > 0" cols="12" md="10" lg="9" xl="8">
+			<b-col v-if="type && Object.keys (type).length > 0" cols="12" md="10" lg="9" xl="8">
 				<b-card no-body>
 					<b-card-header>
 						<h3 class="text-center">
