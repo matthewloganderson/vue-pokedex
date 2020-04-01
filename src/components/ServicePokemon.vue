@@ -59,12 +59,10 @@ export default {
 	},
 	methods: {
 		async getAllPokemon () {
-			try {
-				const response = await this.askProfessor (
-					'get',
-					this.PokemonEndpoints.getAllPokemon
-				)
-			}
+			this.callTheProfessor (
+				this.pokemonEndpoints.getAllPokemon,
+				'pokedex'
+			)
 		},
 		async getEvolutionChain () {
 			if (this.evolutionChainUrl) {
