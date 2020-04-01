@@ -36,7 +36,8 @@ export default {
 			pokemonSpecies: {},
 			ability: {},
 			evolutionChain: {},
-			type: {}
+			type: {},
+			pokedex: {}
 		}
 	},
 	watch: {
@@ -57,6 +58,14 @@ export default {
 		}
 	},
 	methods: {
+		async getAllPokemon () {
+			try {
+				const response = await this.askProfessor (
+					'get',
+					this.PokemonEndpoints.getAllPokemon
+				)
+			}
+		},
 		async getEvolutionChain () {
 			if (this.evolutionChainUrl) {
 				try {
