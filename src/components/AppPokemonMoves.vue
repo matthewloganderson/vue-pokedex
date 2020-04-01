@@ -1,7 +1,7 @@
 <template>
 	<b-row>
 		<b-col>
-			<b-row align-h="center" align-v="center" class="mb-3">
+			<b-row v-if="relatedToPokemon" align-h="center" align-v="center" class="mb-3">
 				<b-col cols="12" md="auto" >
 					<h6>
 						Filter By:
@@ -50,12 +50,12 @@
 							</b-row>
 						</b-list-group-item>
 						<b-list-group-item v-for="(move, index) in moveChunks[currentMoveChunk]" :key="index"> 
-							<service-move v-slot="{ move: moveDetails }" operation="getMove" :moveIdentifier="move.move.name">
+							<service-move v-slot="{ move: moveDetails }" operation="getMove" :moveIdentifier="relatedToPokemon ? move.move.name : move.name">
 								<b-row align-h="center">
 									<b-col cols="12" md="2" class="border-right text-center">
 										<b-link>
 											<span class="font-weight-bold">
-												{{ formatName(move.move.name) }}
+												{{ formatName(relatedToPokemon ? move.move.name : move.name) }}
 											</span>
 										</b-link>
 									</b-col>
@@ -134,6 +134,10 @@ export default {
 			default: () => {
 				return []
 			}
+		},
+		relatedToPokemon: {
+			type: Boolean,
+			default: true
 		}
 	},
 	data () {
@@ -160,7 +164,7 @@ export default {
 			}
 		},
 		availableLearnMethods () {
-			if (this.moves.length > 0) {
+			if (this.moves.length > 0 && this.relatedToPokemon) {
 				const learnMethods = []
 				this.moves.forEach (
 					move => {
@@ -179,7 +183,7 @@ export default {
 			}
 		},
 		availableGames () {
-			if (this.moves.length > 0) {
+			if (this.moves.length > 0 && this.relatedToPokemon) {
 				const games = []
 				this.moves.forEach (
 					move => {
@@ -198,7 +202,7 @@ export default {
 			}
 		},
 		filteredMoves () {
-			if (this.moves.length > 0) {
+			if (this.moves.length > 0 && this.relatedToPokemon) {
 				if (this.selectedGame && !this.selectedLearnMethod) {
 					return this.moves.filter (
 						move => move.version_group_details.find (
@@ -221,6 +225,8 @@ export default {
 				} else {
 					return this.moves
 				}
+			} else if (this.moves.length > 0 && !this.relatedToPokemon){
+				return this.moves
 			} else {
 				return []
 			}
