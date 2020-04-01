@@ -17,10 +17,17 @@
 				<b-row class="mb-3" v-if="possiblePokemonMatch.length > 0">
 					<b-col>
 						<b-list-group>
-							<b-list-group-item class="text-primary" v-for="(pokemon, index) in possiblePokemonMatch" :key="index" :to="{name: 'PokemonDetails', params: {identifier: pokemon.entry_number}}">
+							<b-list-group-item @click="searchTerm = null; $emit ('close_collapse')" class="text-primary" v-for="(pokemon, index) in possiblePokemonMatch" :key="index" :to="{name: 'PokemonDetails', params: {identifier: pokemon.entry_number}}">
 								{{ formatText (pokemon.pokemon_species.name) }}
 							</b-list-group-item>
 						</b-list-group>
+					</b-col>
+				</b-row>
+				<b-row v-if="searchTerm && possiblePokemonMatch.length < 1">
+					<b-col>
+						<b-alert show variant="light">
+							Professor Oak hasn't researched any pokemon by that name.  
+						</b-alert>
 					</b-col>
 				</b-row>
 			</b-col>
@@ -50,7 +57,7 @@ export default {
 			if (this.searchTerm && this.pokedex.length > 0) {
 				const query = _.snakeCase(this.searchTerm)
 				return this.pokedex.filter(pokemon =>
-					pokemon.pokemon_species.name.includes(query)
+					_.snakeCase (pokemon.pokemon_species.name).includes(query)
 				)
 			} else {
 				return []
