@@ -3,7 +3,7 @@ export const PokemonEndpoints = {
 	getPokemon: function (nameOrId) {
 		return `/pokemon/${nameOrId}`
 	},
-	getAllPokemon: '/pokemon',
+	getAllPokemon: '/pokedex/1',
 	getPokemonSpecies: function (nameOrId) {
 		return `/pokemon-species/${nameOrId}`
 	},

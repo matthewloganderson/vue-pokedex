@@ -36,7 +36,8 @@ export default {
 			pokemonSpecies: {},
 			ability: {},
 			evolutionChain: {},
-			type: {}
+			type: {},
+			pokedex: {}
 		}
 	},
 	watch: {
@@ -57,6 +58,12 @@ export default {
 		}
 	},
 	methods: {
+		async getAllPokemon () {
+			this.callTheProfessor (
+				this.pokemonEndpoints.getAllPokemon,
+				'pokedex'
+			)
+		},
 		async getEvolutionChain () {
 			if (this.evolutionChainUrl) {
 				this.callTheProfessor (

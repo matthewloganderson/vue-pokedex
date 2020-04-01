@@ -25,7 +25,7 @@
 				</b-col>
 			</b-row>
 			<b-collapse v-model="showSearch">
-				<app-search-bar />
+				<app-search-bar @close_collapse="showSearch = false" />
 			</b-collapse>
 		</b-col>
 	</b-row>
