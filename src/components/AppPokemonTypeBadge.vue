@@ -1,5 +1,5 @@
 <template>
-	<b-link class="d-block">
+	<b-link v-if="typeDetails" class="mr-2">
 		<b-badge :style="`background-color: ${typeDetails.color}`" class="p-2">
 			<font-awesome-icon v-if="typeDetails.icon" :icon="typeDetails.icon" class="mr-1" />
 			{{ capitalize (typeDetails.name) }}
@@ -14,7 +14,6 @@ export default {
 	name: 'AppPokemonTypeBadge',
 	props: {
 		pokemonType: {
-			type: String,
 			default: null
 		}
 	},
@@ -25,8 +24,9 @@ export default {
 	},
 	computed: {
 		typeDetails () {
-			if (this.pokemonType) {
-				return this.types.find (type => type.name === this.pokemonType)
+			const pokemonType = this.pokemonType
+			if (pokemonType) {
+				return this.types.find (type => type.name == this.pokemonType)
 			} else {
 				return null
 			}
