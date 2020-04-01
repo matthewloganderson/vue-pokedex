@@ -1,5 +1,5 @@
 <template>
-	<b-row v-if="Object.keys (type1).length > 0">
+	<b-row v-if="type1 && Object.keys (type1).length > 0">
 		<b-col class="mb-3 mb-md-0" cols="12" md="4" v-if="damageClasses.resistantTo.length > 0">
 			<b-card class="h-100" border-variant="success" no-body>
 				<b-card-header>
@@ -56,6 +56,10 @@ export default {
 			default: () => {
 				return []
 			}
+		},
+		relatedToPokemon: {
+			type: Boolean,
+			default: true
 		}
 	},
 	mixins: [ApiService],
@@ -129,9 +133,9 @@ export default {
 			this.type1 = {}
 			this.type2 = {}
 			if (this.types.length > 0) {
-				await this.getType (this.types[0].type.name, 'type1')
+				await this.getType (this.relatedToPokemon ? this.types[0].type.name : this.types[0].name, 'type1')
 				if (this.types.length > 1) {
-					await this.getType (this.types[1].type.name, 'type2')
+					await this.getType (this.relatedToPokemon ? this.types[1].type.name : this.types[1].name, 'type2')
 				}
 			}
 		}

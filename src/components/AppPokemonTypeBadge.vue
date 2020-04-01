@@ -1,5 +1,5 @@
 <template>
-	<b-link v-if="typeDetails" class="mr-2">
+	<b-link v-if="typeDetails" :to="toType" class="mr-2">
 		<b-badge :style="`background-color: ${typeDetails.color}`" class="p-2">
 			<font-awesome-icon v-if="typeDetails.icon" :icon="typeDetails.icon" class="mr-1" />
 			{{ capitalize (typeDetails.name) }}
@@ -27,6 +27,18 @@ export default {
 			const pokemonType = this.pokemonType
 			if (pokemonType) {
 				return this.types.find (type => type.name == this.pokemonType)
+			} else {
+				return null
+			}
+		},
+		toType () {
+			if (this.typeDetails) {
+				return {
+					name: 'TypeDetails', 
+					params: {
+						type: this.typeDetails.name
+					}
+				}
 			} else {
 				return null
 			}
