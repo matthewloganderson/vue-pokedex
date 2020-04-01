@@ -25,33 +25,19 @@ export default {
 	methods: {
 		async getMove () {
 			if (this.moveIdentifier) {
-				try {
-					const response = await this.askProfessor(
-						'get',
-						this.moveEndpoints.getMove(this.moveIdentifier)
-					)
-					this.setLocalValue('move', response)
-					this.$emit ('success', response)
-				} catch (error) {
-					this.$emit ('error', error)
-					this.handleError()
-				}
+				this.callTheProfessor (
+					this.moveEndpoints.getMove(this.moveIdentifier),
+					'move'
+				)
 			} else {
 				this.handleError('Professor Oak does not know about this pokemon yet!')
 			}
 		},
 		async getAllMoves () {
-			try {
-				const response = await this.askProfessor (
-					'get',
-					this.moveEndpoints.getAllMoves
-				)
-				this.setLocalValue ('moves', response)
-				this.$emit ('success', response)
-			} catch (error) {
-				this.$emit ('error', error)
-				this.handleError()
-			}
+			this.callTheProfessor (
+				this.moveEndpoints.getAllMoves,
+				'moves'
+			)
 		}
 	},
 	render() {

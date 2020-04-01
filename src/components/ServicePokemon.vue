@@ -68,17 +68,10 @@ export default {
 		},
 		async getEvolutionChain () {
 			if (this.evolutionChainUrl) {
-				try {
-					const response = await this.askProfessor (
-						'get',
-						this.pokemonEndpoints.getEvolutionChain (this.evolutionChainUrl)
-					)
-					this.setLocalValue ('evolutionChain', response)
-					this.$emit ('success', response)
-				} catch (error) {
-					this.$emit ('error', error)
-					this.handleError()
-				}
+				this.callTheProfessor (
+					this.pokemonEndpoints.getEvolutionChain (this.evolutionChainUrl), 
+					'evolutionChain'
+				)
 			} else {
 				this.handleError ()
 			}
@@ -86,62 +79,34 @@ export default {
 		async getPokemon () {
 			if (this.pokemonIdentifier) {
 				this.pokemon = {}
-				try {
-					const response = await this.askProfessor(
-						'get',
-						this.pokemonEndpoints.getPokemon(this.pokemonIdentifier)
+				this.callTheProfessor (
+					this.pokemonEndpoints.getPokemon(this.pokemonIdentifier),
+					'pokemon'
 				)
-				this.setLocalValue('pokemon', response)
-				this.$emit ('success', response)
-				} catch (error) {
-					this.$emit ('error', error)
-					this.handleError()
-				}
 			}
 		},
 		async getPokemonSpecies () {
 			if (this.pokemonSpeciesIdentifier) {
-				try {
-					const response = await this.askProfessor (
-						'get', 
-						this.pokemonEndpoints.getPokemonSpecies (this.pokemonSpeciesIdentifier)
-					)
-					this.setLocalValue ('pokemonSpecies', response)
-					this.$emit ('success', response)
-				} catch (error) {
-					this.$emit ('error', error)
-					this.handleError()
-				}
+				this.callTheProfessor (
+					this.pokemonEndpoints.getPokemonSpecies (this.pokemonSpeciesIdentifier),
+					'pokemonSpecies'
+				)
 			}
 		},
 		async getAbility () {
 			if (this.pokemonAbilityIdentifier) {
-				try {
-					const response = await this.askProfessor (
-						'get', 
-						this.abilityEndpoints.getAbility(this.pokemonAbilityIdentifier)
-					)
-					this.setLocalValue ('ability', response)
-					this.$emit ('success', response)
-				} catch (error) {
-					this.$emit ('error', error)
-					this.handleError()
-				}
+				this.callTheProfessor (
+					this.abilityEndpoints.getAbility(this.pokemonAbilityIdentifier),
+					'ability'
+				)
 			}
 		},
 		async getType() {
 			if (this.typeIdentifier) {
-				try {
-					const response = await this.askProfessor (
-						'get',
-						this.typeEndpoints.getPokemonType (this.typeIdentifier)
-					)
-					this.setLocalValue ('type', response)
-					this.$emit ('success', response)
-				} catch (error) {
-					this.$emit ('error', error)
-					this.handleError()
-				}
+				this.callTheProfessor (
+					this.typeEndpoints.getPokemonType (this.typeIdentifier),
+					'type'
+				)
 			}
 		}
 	},
