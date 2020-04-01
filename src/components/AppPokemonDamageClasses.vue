@@ -120,16 +120,10 @@ export default {
 	},
 	methods: {
 		async getType (typeIdentifier, dataDestination) {
-			try {
-				const response = await this.askProfessor (
-					'get',
-					this.typeEndpoints.getPokemonType (typeIdentifier)
-				)
-				this.setLocalValue (dataDestination, response)
-			} catch (error) {
-				this.$emit ("error", error)
-				this.handleError()
-			}
+			await this.callTheProfessor (
+				this.typeEndpoints.getPokemonType (typeIdentifier),
+				dataDestination
+			)
 		},
 		async getTypeData () {
 			this.type1 = {}

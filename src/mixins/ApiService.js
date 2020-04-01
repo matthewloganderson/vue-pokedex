@@ -78,6 +78,24 @@ export default {
 					this.loading = false
 				}
 			}
-		}
+		},
+		async callTheProfessor (
+			endpoint,
+			dataDestination, 
+			type = 'get',
+
+		) {
+			try {
+				const response = await this.askProfessor (
+					type,
+					endpoint
+				)
+				this.setLocalValue (dataDestination, response)
+				this.$emit ('success', response)
+			} catch (error) {
+				this.$emit ('error', error)
+				this.handleError()
+			}
+		},
 	}
 }
