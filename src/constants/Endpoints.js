@@ -30,5 +30,11 @@ export const MoveEndpoints = {
 	getMove: function (nameOrId) {
 		return `/move/${nameOrId}`
 	},
-	getAllMoves: '/move'
+	getAllMoves: '/move',
+	getMoveCategory: function (url) {
+		return `/move-category/${_.replace (url, 'https://pokeapi.co/api/v2/move-category/', '')}`
+	},
+	getMoveTarget: function (url) {
+		return `/move-target/${_.replace (url, 'https://pokeapi.co/api/v2/move-target/', '')}`
+	},
 }

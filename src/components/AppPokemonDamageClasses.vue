@@ -73,23 +73,22 @@ export default {
 	},
 	watch: {
 		types: {
-			handler: 'getTypeData'
+			handler: 'getTypeData',
+			deep: true,
 		}
 	},
 	mounted () {
-		if (this.types.length > 0) {
-			this.getTypeData()
-		}
+		this.getTypeData()
 	},
 	computed: {
 		damageClasses () {
 			const allTypes = _.map (_.cloneDeep (this.typeData), 'name')
-			const damageClasses = {
-				weakTo: [],
-				resistantTo: [], 
-				neutralTo: []
-			}
 			if (Object.keys (this.type1).length > 0 && Object.keys (this.type2).length > 0) {
+				const damageClasses = {
+					weakTo: [],
+					resistantTo: [], 
+					neutralTo: []
+				}
 				const type1 = this.type1.damage_relations
 				const type2 = this.type2.damage_relations
 				damageClasses.weakTo = _.uniq(_.map(type1.double_damage_from.concat(type2.double_damage_from), 'name'))
@@ -133,9 +132,9 @@ export default {
 			this.type1 = {}
 			this.type2 = {}
 			if (this.types.length > 0) {
-				await this.getType (this.relatedToPokemon ? this.types[0].type.name : this.types[0].name, 'type1')
+				await this.getType (this.relatedToPokemon ? this.types[0].type.name : this.types[0], 'type1')
 				if (this.types.length > 1) {
-					await this.getType (this.relatedToPokemon ? this.types[1].type.name : this.types[1].name, 'type2')
+					await this.getType (this.relatedToPokemon ? this.types[1].type.name : this.types[1], 'type2')
 				}
 			}
 		}

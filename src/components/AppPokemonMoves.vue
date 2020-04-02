@@ -53,7 +53,7 @@
 							<service-move v-slot="{ move: moveDetails }" operation="getMove" :moveIdentifier="relatedToPokemon ? move.move.name : move.name">
 								<b-row align-h="center">
 									<b-col cols="12" md="2" class="border-right text-center">
-										<b-link>
+										<b-link :to="{name: 'MoveDetails', params: {move: relatedToPokemon ? move.move.name : move.name}}">
 											<span class="font-weight-bold">
 												{{ formatName(relatedToPokemon ? move.move.name : move.name) }}
 											</span>

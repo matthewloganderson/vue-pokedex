@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import PageHome from '@/components/PageHome'
 import PagePokemonDetails from '@/components/PagePokemonDetails'
 import PageTypeDetails from '@/components/PageTypeDetails'
+import PageMoveDetails from '@/components/PageMoveDetails'
 
 Vue.use(Router)
 
@@ -24,6 +25,12 @@ export default new Router({
 			name: 'TypeDetails',
 			component: PageTypeDetails,
 			props: true
+		},
+		{
+			path: '/move/details/:move',
+			name: 'MoveDetails',
+			component: PageMoveDetails,
+			props: true,
 		}
 	]
 })

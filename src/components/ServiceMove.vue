@@ -9,18 +9,34 @@ export default {
 			type: [String, Number],
 			default: null
 		},
+		moveCategoryUrl: {
+			type: String,
+			default: null,
+		},
+		moveTargetUrl: {
+			type: String,
+			default: null,
+		}
 	},
 	data() {
 		return {
 			moveEndpoints: MoveEndpoints,
 			move: {},
-			moves: []
+			moves: [],
+			moveCategory: {},
+			moveTarget: {}
 		}
 	},
 	watch: {
 		moveIdentifier: {
 			handler: 'getMove'
 		},
+		moveCategoryUrl: {
+			handler: 'getMoveCategory'
+		},
+		moveTargetUrl: {
+			handler: 'getMoveTarget'
+		}
 	},
 	methods: {
 		async getMove () {
@@ -38,6 +54,22 @@ export default {
 				this.moveEndpoints.getAllMoves,
 				'moves'
 			)
+		},
+		async getMoveCategory () {
+			if (this.moveCategoryUrl) {
+				this.callTheProfessor (
+					this.moveEndpoints.getMoveCategory (this.moveCategoryUrl), 
+					'moveCategory'
+				)
+			}
+		},
+		async getMoveTarget () {
+			if (this.moveTargetUrl) {
+				this.callTheProfessor (
+					this.moveEndpoints.getMoveTarget (this.moveTargetUrl),
+					'moveTarget'
+				)
+			}
 		}
 	},
 	render() {
