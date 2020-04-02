@@ -28,6 +28,18 @@
 								<app-pokemon-description-picker :relatedToPokemon="false" :descriptions="englishDescriptions" />
 							</b-col>
 						</b-row>
+						<b-row class="mb-2">
+							<b-col>
+								<h5 class="border-bottom pb-2">
+									{{ moveName }}'s Effects & Targets
+								</h5>
+							</b-col>
+						</b-row>
+						<b-row class="mb-4">
+							<b-col>
+								<app-move-effects :moveName="moveName" :move="move" />
+							</b-col>
+						</b-row>
 						<b-row>
 							<b-col>
 								<h5 class="border-bottom pb-2">
@@ -37,48 +49,7 @@
 						</b-row>
 						<b-row>
 							<b-col>
-								<b-row class="mt-2">
-									<b-col v-if="move.power">
-										<b-card class="text-center">
-											<h6>
-												Power
-											</h6>
-											<span>
-												{{ move.power }}
-											</span>
-										</b-card>
-									</b-col>
-									<b-col v-if="move.pp">
-										<b-card class="text-center">
-											<h6>
-												PP
-											</h6>
-											<span>
-												{{ move.pp }}
-											</span>
-										</b-card>
-									</b-col>
-									<b-col v-if="move.accuracy">
-										<b-card class="text-center">
-											<h6>
-												Accuracy
-											</h6>
-											<span>
-												{{ move.accuracy }}%
-											</span>
-										</b-card>
-									</b-col>
-									<b-col v-if="move.accuracy">
-										<b-card class="text-center">
-											<h6>
-												Damage Type
-											</h6>
-											<span>
-												{{ formatText(move.damage_class.name) }}
-											</span>
-										</b-card>
-									</b-col>
-								</b-row>
+								<app-move-stats :move="move" />
 							</b-col>
 						</b-row>
 					</b-card-body>
@@ -89,6 +60,8 @@
 </template>
 
 <script>
+import AppMoveEffects from './AppMoveEffects'
+import AppMoveStats from './AppMoveStats'
 import _ from 'lodash'
 import AppPokemonTypeBadge from './AppPokemonTypeBadge'
 import AppPokemonDescriptionPicker from './AppPokemonDescriptionPicker'
@@ -98,7 +71,9 @@ export default {
 	components: {
 		ServiceMove,
 		AppPokemonDescriptionPicker,
-		AppPokemonTypeBadge
+		AppPokemonTypeBadge,
+		AppMoveStats,
+		AppMoveEffects
 	},
 	data () {
 		return {
