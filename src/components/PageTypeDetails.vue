@@ -43,9 +43,9 @@
 								</h5>
 							</b-col>
 						</b-row>
-						<b-row  v-if="type && Object.keys (type).length > 0" class="mt-2">
+						<b-row class="mt-2">
 							<b-col>
-								<app-pokemon-damage-classes :relatedToPokemon="false" :types="[type]" />
+								<app-pokemon-damage-classes :relatedToPokemon="false" :types="[$route.params.type]" />
 							</b-col>
 						</b-row>
 					</b-card-body>
