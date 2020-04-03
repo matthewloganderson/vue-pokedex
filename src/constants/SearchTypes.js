@@ -3,9 +3,6 @@ export default [
 		text: 'Pokemon', value: 'pokemon'
 	},
 	{
-		text: 'Moves', value: 'move'
+		text: 'Types', value: 'type'
 	},
-	{
-		text: 'Items', value: 'item'
-	}
 ]
