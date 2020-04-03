@@ -5,7 +5,7 @@
 				<b-card class="h-100">
 					<b-row class="mb-4">
 						<b-col>
-							<b-link>
+							<b-link :to="{name: 'AbilityDetails', params: {ability: ability.ability.name}}">
 								<h6 class="font-weight-bold">
 									{{ removeHyphenCapitalize(ability.ability.name) }}
 								</h6>
