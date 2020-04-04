@@ -9,6 +9,9 @@ export const PokemonEndpoints = {
 	},
 	getEvolutionChain: function (url) {
 		return `/evolution-chain/${_.replace (url, 'https://pokeapi.co/api/v2/evolution-chain/', '')}`
+	},
+	getPokemonGeneration: function (nameOrId) {
+		return `/generation/${nameOrId}/`
 	}
 }
 

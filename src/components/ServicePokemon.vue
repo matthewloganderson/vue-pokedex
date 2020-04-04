@@ -24,8 +24,11 @@ export default {
 		evolutionChainUrl: {
 			type: String,
 			default: null,
+		},
+		pokemonGenerationId: {
+			type: [String, Number],
+			default: null
 		}
-
 	},
 	data() {
 		return {
@@ -37,10 +40,14 @@ export default {
 			ability: {},
 			evolutionChain: {},
 			type: {},
-			pokedex: {}
+			pokedex: {},
+			generation: {}
 		}
 	},
 	watch: {
+		pokemonGenerationId: {
+			hander: 'getPokemonGeneration'
+		},
 		pokemonIdentifier: {
 			handler: 'getPokemon', 
 		},
@@ -58,6 +65,14 @@ export default {
 		}
 	},
 	methods: {
+		async getPokemonGeneration () {
+			if (this.pokemonGenerationId) {
+				this.callTheProfessor (
+					this.pokemonEndpoints.getPokemonGeneration (this.pokemonGenerationId),
+					'generation'
+				)
+			}
+		},
 		async getAllPokemon () {
 			this.callTheProfessor (
 				this.pokemonEndpoints.getAllPokemon,

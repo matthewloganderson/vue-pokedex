@@ -12,7 +12,7 @@
 					<b-link to="/">
 						<b-img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png" />
 						<h4 class="text-center text-light d-inline">
-							Ask Professor Oak
+							VuePokedex
 						</h4>
 					</b-link>
 				</b-col>

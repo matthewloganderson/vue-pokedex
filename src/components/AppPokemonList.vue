@@ -3,8 +3,8 @@
 		<b-col>
 			<b-row>
 				<b-col class="mb-3" cols="6" md="3" v-for="(pokemon, index) in chunkedPokemon[currentChunk]" :key="index">
-					<service-pokemon v-slot="{pokemon: pokemonDetails}" operation="getPokemon" :pokemonIdentifier="pokemon.pokemon.name">
-						<b-link v-if="Object.keys (pokemonDetails).length > 0" :to="{name: 'PokemonDetails', params: {identifier: pokemonDetails.id}}">
+					<service-pokemon v-slot="{pokemon: pokemonDetails}" operation="getPokemon" :pokemonIdentifier="pokemon.pokemon ? pokemon.pokemon.name : pokemon.name">
+						<b-link v-if="pokemonDetails && Object.keys (pokemonDetails).length > 0" :to="{name: 'PokemonDetails', params: {identifier: pokemonDetails.id}}">
 							<b-card class="h-100">
 								<b-row>
 									<b-col class="text-center">
