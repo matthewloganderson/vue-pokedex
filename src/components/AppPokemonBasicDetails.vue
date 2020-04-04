@@ -9,7 +9,7 @@
 						</h6>
 					</b-badge>
 				</b-col>
-				<b-col cols="4" md="2">
+				<b-col class="text-center" cols="4" md="2">
 					<b-img fluid :src="pokemon.sprites.front_default" />
 				</b-col>
 				<b-col class="text-center text-md-left" cols="12" md="4">
