@@ -10,7 +10,7 @@
 									{{ removeHyphenCapitalize(ability.ability.name) }}
 								</h6>
 							</b-link>
-							<p v-if="Object.keys (abilityDetails).length > 0">
+							<p v-if="!isEmpty(abilityDetails)">
 								{{abilityDetails.effect_entries[0].short_effect}}
 							</p>
 							<b-link @click="toggleCollapse(`${ability.ability.name}__collapse`)">
@@ -23,7 +23,7 @@
 										<h6>
 											Detailed Info
 										</h6>
-										<p v-if="Object.keys (abilityDetails).length > 0">
+										<p v-if="!isEmpty(abilityDetails)">
 											{{abilityDetails.effect_entries[0].effect}}
 										</p>
 									</b-col>
@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import ToggleCollapse from '@/mixins/ToggleCollapse'
+import IsEmpty from '@/mixins/IsEmpty'
 import _ from 'lodash'
 import ServicePokemon from './ServicePokemon'
 export default {
@@ -45,6 +47,7 @@ export default {
 	components: {
 		ServicePokemon
 	},
+	mixins: [IsEmpty, ToggleCollapse],
 	props: {
 		abilities: {
 			type: Array,
@@ -57,9 +60,6 @@ export default {
 		removeHyphenCapitalize (text) {
 			return _.capitalize (_.replace (text, '-', ' '))
 		},
-		toggleCollapse (collapseId) {
-			this.$root.$emit('bv::toggle::collapse', collapseId)
-		}
 	}
 }
 </script>

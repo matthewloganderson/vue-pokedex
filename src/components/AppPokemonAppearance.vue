@@ -3,16 +3,17 @@
 		<b-col cols="6" md="4" lg="3" class="mb-3 text-center" v-for="(value, name) in sprites" :key="name">
 			<b-img fluid :src="value" />
 			<h6 class="text-center">
-				{{ formatName (name) }}
+				{{ formatText (name, /_/g) }}
 			</h6>
 		</b-col>
 	</b-row>
 </template>
 
 <script>
-import _ from 'lodash'
+import FormatText from '@/mixins/FormatText'
 export default {
 	name: 'AppPokemonAppearance',
+	mixins: [FormatText],
 	props: {
 		sprites: {
 			type: Object,
@@ -21,18 +22,6 @@ export default {
 			}
 		}
 	},
-	methods: {
-		formatName (name) {
-			const formattedName =  _.capitalize(_.replace (name, '_', ' '))
-			if (formattedName.includes ('_')) {
-				return  _.capitalize(_.replace (formattedName, '_', ' '))
-			} else {
-				return formattedName
-			}
-			
-		} 
-	}
-	
 }
 </script>
 

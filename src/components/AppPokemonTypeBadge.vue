@@ -2,13 +2,13 @@
 	<b-link v-if="typeDetails" :to="toType" class="mr-2">
 		<b-badge :style="`background-color: ${typeDetails.color}`" class="p-2">
 			<font-awesome-icon v-if="typeDetails.icon" :icon="typeDetails.icon" class="mr-1" />
-			{{ capitalize (typeDetails.name) }}
+			{{ formatText (typeDetails.name) }}
 		</b-badge>
 	</b-link>
 </template>
 
 <script>
-import _ from 'lodash'
+import FormatText from '@/mixins/FormatText'
 import PokemonTypes from '@/constants/PokemonTypes'
 export default {
 	name: 'AppPokemonTypeBadge',
@@ -17,6 +17,7 @@ export default {
 			default: null
 		}
 	},
+	mixins: [FormatText],
 	data () {
 		return {
 			types: PokemonTypes
@@ -44,12 +45,6 @@ export default {
 			}
 		}
 	},
-	methods: {
-		capitalize (text) {
-			return _.capitalize (text)
-		}
-	}
-
 }
 </script>
 

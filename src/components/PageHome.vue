@@ -29,7 +29,7 @@
 							<b-card v-if="generation && Object.keys (generation).length > 0" no-body>
 								<b-card-header>
 									<h6>
-										{{capitalize(generation.main_region.name)}}
+										{{formatText(generation.main_region.name)}}
 									</h6>
 								</b-card-header>
 								<b-card-body>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import FormatText from '@/mixins/FormatText'
 import AppPokemonList from './AppPokemonList'
 import ServicePokemon from './ServicePokemon'
 import AppSearchBar from './AppSearchBar'
@@ -55,11 +55,7 @@ export default {
 		ServicePokemon,
 		AppPokemonList
 	},
-	methods: {
-		capitalize (text) {
-			return _.capitalize (text)
-		} 
-	}
+	mixins: [FormatText],
 }
 </script>
 

@@ -1,6 +1,6 @@
 <template>
 	<service-move v-slot @success="move = $event" :moveIdentifier="$route.params.move" operation="getMove">
-		<b-row v-if="move && Object.keys (move).length > 0" align-h="center">
+		<b-row v-if="move && !isEmpty (move)" align-h="center">
 			<b-col cols="12" md="10" lg="9" xl="8">
 				<b-card no-body>
 					<b-card-header>
@@ -60,9 +60,10 @@
 </template>
 
 <script>
+import FormatText from '@/mixins/FormatText'
+import IsEmpty from '@/mixins/IsEmpty'
 import AppMoveEffects from './AppMoveEffects'
 import AppMoveStats from './AppMoveStats'
-import _ from 'lodash'
 import AppPokemonTypeBadge from './AppPokemonTypeBadge'
 import AppPokemonDescriptionPicker from './AppPokemonDescriptionPicker'
 import ServiceMove from './ServiceMove'
@@ -75,6 +76,7 @@ export default {
 		AppMoveStats,
 		AppMoveEffects
 	},
+	mixins: [FormatText, IsEmpty],
 	data () {
 		return {
 			move: {}
@@ -82,25 +84,20 @@ export default {
 	},
 	computed: {
 		moveName () {
-			if (this.move && Object.keys (this.move).length > 0) {
+			if (this.move && !this.isEmpty(this.move)) {
 				return this.move.names.find (move => move.language.name === 'en').name
 			} else {
 				return null
 			}
 		},
 		englishDescriptions () {
-			if (this.move && Object.keys (this.move).length > 0) {
+			if (this.move && !this.isEmpty (this.move)) {
 				return this.move.flavor_text_entries.filter (text => text.language.name === 'en')
 			} else {	
 				return []
 			}
 		}
 	},
-	methods: {
-		formatText (text) {
-			return _.capitalize (_.replace (text, '-', ' '))
-		}
-	}
 }
 </script>
 

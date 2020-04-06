@@ -8,7 +8,7 @@
 							<h6>
 								Move Target
 							</h6>
-							<span v-if="moveTarget && Object.keys (moveTarget).length > 0">
+							<span v-if="moveTarget && !isEmpty(moveTarget)">
 								{{ findEnglishDescription(moveTarget.descriptions) }}
 							</span>
 						</b-card>
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import ToggleCollapse from '@/mixins/ToggleCollapse'
+import IsEmpty from '@/mixins/IsEmpty'
 import _ from 'lodash'
 import ServiceMove from './ServiceMove'
 export default {
@@ -54,6 +56,7 @@ export default {
 	components: {
 		ServiceMove
 	},
+	mixins: [IsEmpty, ToggleCollapse],
 	props: {
 		moveName: {
 			type: String,
@@ -73,9 +76,6 @@ export default {
 		formatEffectEntry (effect) {
 			return _.replace(effect, '$effect_chance', this.move.effect_chance)
 		},
-		toggleCollapse (collapseId) {
-			this.$root.$emit('bv::toggle::collapse', collapseId)
-		}
 	}
 }
 </script>
