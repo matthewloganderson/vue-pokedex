@@ -1,6 +1,6 @@
 <template>
-	<service-pokemon v-if="$route.params.type" @success="type = $event" operation="getType" :typeIdentifier="$route.params.type">
-		<b-row align-h="center">
+	<service-pokemon v-slot="{loading}" v-if="$route.params.type" @success="type = $event" operation="getType" :typeIdentifier="$route.params.type">
+		<b-row v-if="!loading" align-h="center">
 			<b-col v-if="type && !isEmpty(type)" cols="12" md="10" lg="9" xl="8">
 				<b-card no-body>
 					<b-card-header>
@@ -52,10 +52,12 @@
 				</b-card>
 			</b-col>
 		</b-row>
+		<app-loading v-else />
 	</service-pokemon>
 </template>
 
 <script>
+import AppLoading from './AppLoading'
 import FormatText from '@/mixins/FormatText'
 import IsEmpty from '@/mixins/IsEmpty'
 import AppPokemonDamageClasses from './AppPokemonDamageClasses'
@@ -66,6 +68,7 @@ import ServicePokemon from './ServicePokemon'
 export default {
 	name: 'PageTypeDetails',
 	components: {
+		AppLoading,
 		ServicePokemon,
 		AppPokemonList,
 		AppPokemonMoves,

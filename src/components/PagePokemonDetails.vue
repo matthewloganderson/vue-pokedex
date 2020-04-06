@@ -1,6 +1,6 @@
 <template>
-	<service-pokemon @success="pokemonDetails = $event" operation="getPokemon" :pokemonIdentifier="$route.params.identifier">
-		<b-row align-h="center">
+	<service-pokemon v-slot="{loading}" @success="pokemonDetails = $event" operation="getPokemon" :pokemonIdentifier="$route.params.identifier">
+		<b-row v-if="!loading" align-h="center">
 				<b-col cols="12" md="10" lg="9" xl="8" v-if="pokemonDetails">
 					<service-pokemon @success="pokemonSpeciesDetails = $event" operation="getPokemonSpecies" :pokemonSpeciesIdentifier="pokemonDetails.species.name">
 						<div :style="typeBorderStyle" class="p-1 rounded">
@@ -44,10 +44,12 @@
 					</service-pokemon>
 				</b-col>
 		</b-row>
+		<app-loading v-else />
 	</service-pokemon>
 </template>
 
 <script>
+import AppLoading from './AppLoading'
 import IsEmpty from '@/mixins/IsEmpty'
 import AppSectionHeading from './AppSectionHeading'
 import AppPokemonDamageClasses from './AppPokemonDamageClasses'
@@ -76,7 +78,8 @@ export default {
 		AppPokemonVariantsPicker,
 		AppPokemonEvolutionChain,
 		AppPokemonDamageClasses,
-		AppSectionHeading
+		AppSectionHeading,
+		AppLoading
 	},
 	mixins: [
 		IsEmpty

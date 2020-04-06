@@ -25,8 +25,8 @@
 				</h4>
 				<b-row class="mb-4" v-for="(gen, index) in [1,2,3,4,5]" :key="index">
 					<b-col>
-						<service-pokemon v-slot="{generation}" operation="getPokemonGeneration" :pokemonGenerationId="gen">
-							<b-card v-if="generation && Object.keys (generation).length > 0" no-body>
+						<service-pokemon v-slot="{generation, loading}" operation="getPokemonGeneration" :pokemonGenerationId="gen">
+							<b-card v-if="generation && !isEmpty (generation) && !loading" no-body>
 								<b-card-header>
 									<h6>
 										{{formatText(generation.main_region.name)}}
@@ -36,6 +36,7 @@
 									<app-pokemon-list :pokemon="generation.pokemon_species" />
 								</b-card-body>
 							</b-card>
+							<app-loading v-else />
 						</service-pokemon>
 					</b-col>
 				</b-row>
@@ -44,6 +45,8 @@
 </template>
 
 <script>
+import AppLoading from './AppLoading'
+import IsEmpty from '@/mixins/IsEmpty'
 import FormatText from '@/mixins/FormatText'
 import AppPokemonList from './AppPokemonList'
 import ServicePokemon from './ServicePokemon'
@@ -53,9 +56,10 @@ export default {
 	components: {
 		AppSearchBar,
 		ServicePokemon,
-		AppPokemonList
+		AppPokemonList,
+		AppLoading
 	},
-	mixins: [FormatText],
+	mixins: [FormatText, IsEmpty],
 }
 </script>
 
