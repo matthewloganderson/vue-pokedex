@@ -3,7 +3,7 @@
 			<b-col>
 				<b-row>
 					<b-col>
-						<b-jumbotron bg-variant="dark" text-variant="light" header="VuePokedex" lead="A pokedex application built using Vue.js, Bootstrap-Vue, and PokeAPI.">
+						<b-jumbotron bg-variant="dark" text-variant="light" header="Vue Pokedex" lead="A pokedex application built using Vue.js, Bootstrap-Vue, and PokeAPI.">
 							<hr />
 							<b-row>
 								<b-col>
