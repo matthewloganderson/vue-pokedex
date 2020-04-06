@@ -5,7 +5,9 @@
 				<b-col cols="12" md="6" lg="5">
 					<b-form-group label="Select Description" label-size="sm">
 						<b-form-select v-model="selectedDescription">
-							<option v-for="(description, index) in descriptions" :key="index" :value="index">{{ capitalizeRemoveHyphens(relatedToPokemon ? description.version.name : description.version_group.name) }}</option>
+							<option v-for="(description, index) in descriptions" :key="index" :value="index">
+								{{ formatText(relatedToPokemon ? description.version.name : description.version_group.name) }}
+							</option>
 						</b-form-select>
 					</b-form-group>
 				</b-col>
@@ -20,7 +22,7 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import FormatText from '@/mixins/FormatText'
 export default {
 	name: 'AppPokemonDescriptionPicker',
 	props: {
@@ -35,6 +37,7 @@ export default {
 			}
 		},
 	},
+	mixins: [FormatText],
 	data () {
 		return {
 			selectedDescription: 0
@@ -46,9 +49,6 @@ export default {
 		}
 	},
 	methods: {
-		capitalizeRemoveHyphens (text) {
-			return _.capitalize (_.replace (text, '-', ' '))
-		},
 		resetSelection () {
 			this.selectedDescription = 0
 		}

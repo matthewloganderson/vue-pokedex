@@ -1,10 +1,10 @@
 <template>
-	<b-row v-if="pokemon.length > 0">
+	<b-row v-if="!isEmpty(pokemon)">
 		<b-col>
 			<b-row>
 				<b-col class="mb-3" cols="6" md="3" v-for="(pokemon, index) in chunkedPokemon[currentChunk]" :key="index">
 					<service-pokemon v-slot="{pokemon: pokemonDetails}" operation="getPokemon" :pokemonIdentifier="pokemon.pokemon ? pokemon.pokemon.name : pokemon.name">
-						<b-link v-if="pokemonDetails && Object.keys (pokemonDetails).length > 0" :to="{name: 'PokemonDetails', params: {identifier: pokemonDetails.id}}">
+						<b-link v-if="pokemonDetails && !isEmpty(pokemonDetails)" :to="{name: 'PokemonDetails', params: {identifier: pokemonDetails.id}}">
 							<b-card class="h-100">
 								<b-row>
 									<b-col class="text-center">
@@ -43,12 +43,15 @@
 
 <script>
 import _ from 'lodash'
+import FormatText from '@/mixins/FormatText'
+import IsEmpty from '@/mixins/IsEmpty'
 import ServicePokemon from './ServicePokemon'
 export default {
 	name: 'AppPokemonList',
 	components: {
 		ServicePokemon
 	},
+	mixins: [IsEmpty, FormatText],
 	props: {
 		pokemon: {
 			type: Array,
@@ -78,18 +81,13 @@ export default {
 			}
 		},
 		chunkedPokemon () {
-			if (this.pokemon.length > 0) {
+			if (!this.isEmpty(this.pokemon)) {
 				return _.chunk (this.pokemon, 4)
 			} else {
 				return []
 			}
 		}
 	},
-	methods: {
-		formatText (text) {
-			return _.capitalize (_.replace (text, '-', ' '))
-		}
-	}
 }
 </script>
 

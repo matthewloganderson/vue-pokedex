@@ -1,7 +1,7 @@
 <template>
 	<service-pokemon v-if="$route.params.type" @success="type = $event" operation="getType" :typeIdentifier="$route.params.type">
 		<b-row align-h="center">
-			<b-col v-if="type && Object.keys (type).length > 0" cols="12" md="10" lg="9" xl="8">
+			<b-col v-if="type && !isEmpty(type)" cols="12" md="10" lg="9" xl="8">
 				<b-card no-body>
 					<b-card-header>
 						<h3 class="text-center">
@@ -56,10 +56,11 @@
 </template>
 
 <script>
+import FormatText from '@/mixins/FormatText'
+import IsEmpty from '@/mixins/IsEmpty'
 import AppPokemonDamageClasses from './AppPokemonDamageClasses'
 import AppPokemonMoves from './AppPokemonMoves'
 import AppPokemonList from './AppPokemonList'
-import _ from 'lodash'
 import PokemonTypes from '@/constants/PokemonTypes'
 import ServicePokemon from './ServicePokemon'
 export default {
@@ -70,6 +71,7 @@ export default {
 		AppPokemonMoves,
 		AppPokemonDamageClasses
 	},
+	mixins: [IsEmpty, FormatText],
 	data () {
 		return {
 			type: {},
@@ -78,18 +80,13 @@ export default {
 	},
 	computed:{
 		currentTypeData () {
-			if (Object.keys(this.type).length > 0) {
+			if (!this.isEmpty(this.type)) {
 				return this.typesData.find (type => type.name === this.type.name)
 			} else {
 				return {}
 			}
 		}
 	},
-	methods: {
-		formatText (text) {
-			return _.capitalize(_.replace (text, '-', ' '))
-		}
-	}
 }
 </script>
 

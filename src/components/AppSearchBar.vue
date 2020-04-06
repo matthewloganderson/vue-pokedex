@@ -14,7 +14,7 @@
 						</b-form-group>
 					</b-col>
 				</b-row>
-				<b-row class="mb-3" v-if="searchType === 'pokemon' && possiblePokemonMatch.length > 0">
+				<b-row class="mb-3" v-if="searchType === 'pokemon' && !isEmpty(possiblePokemonMatch)">
 					<b-col>
 						<b-list-group>
 							<b-list-group-item @click="searchTerm = null; $emit ('close_collapse')" class="text-primary" v-for="(pokemon, index) in possiblePokemonMatch" :key="index" :to="{name: 'PokemonDetails', params: {identifier: pokemon.entry_number}}">
@@ -23,7 +23,7 @@
 						</b-list-group>
 					</b-col>
 				</b-row>
-				<b-row class="mb-3" v-if="searchType === 'type' && possibleTypeMatch.length > 0">
+				<b-row class="mb-3" v-if="searchType === 'type' && !isEmpty(possibleTypeMatch)">
 					<b-col>
 						<b-list-group>
 							<b-list-group-item @click="searchTerm = null; $emit ('close_collapse')" class="text-primary" v-for="(type, index) in possibleTypeMatch" :key="index" :to="{name: 'TypeDetails', params: {type: type.name}}">
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import IsEmpty from '@/mixins/IsEmpty'
+import FormatText from '@/mixins/FormatText'
 import PokemonTypes from '@/constants/PokemonTypes'
 import _ from 'lodash'
 import ServicePokemon from './ServicePokemon'
@@ -54,6 +56,7 @@ export default {
 	components: {
 		ServicePokemon
 	},
+	mixins: [IsEmpty, FormatText],
 	data () {
 		return {
 			searchOptions: SearchTypes,
@@ -65,7 +68,7 @@ export default {
 	},
 	computed: {
 		possiblePokemonMatch () {
-			if (this.searchTerm && this.pokedex.length > 0 && this.searchType === 'pokemon') {
+			if (this.searchTerm && !this.isEmpty(this.pokedex) && this.searchType === 'pokemon') {
 				const query = _.snakeCase(this.searchTerm)
 				return this.pokedex.filter(pokemon =>
 					_.snakeCase (pokemon.pokemon_species.name).includes(query)
@@ -85,11 +88,6 @@ export default {
 			}
 		}
 	},
-	methods: {
-		formatText (text) {
-			return _.capitalize (_.replace (text, '-', ' '))
-		} 
-	}
 }
 </script>
 

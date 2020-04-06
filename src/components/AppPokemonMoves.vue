@@ -14,7 +14,7 @@
 								All Games
 							</option>
 							<option v-for="(game, index) in availableGames" :key="index" :value="game">
-								{{ formatName(game) }}
+								{{ formatText(game) }}
 							</option>
 						</b-form-select>
 					</b-form-group>
@@ -26,7 +26,7 @@
 								All Methods
 							</option>
 							<option :value="method" v-for="(method, index) in availableLearnMethods" :key="index">
-								{{ formatName(method) }}
+								{{ formatText(method) }}
 							</option>
 						</b-form-select>
 					</b-form-group>
@@ -34,7 +34,7 @@
 			</b-row>
 			<b-row>
 				<b-col>
-					<b-list-group class="mb-3" v-if="moveChunks.length > 0">
+					<b-list-group class="mb-3" v-if="!isEmpty(moveChunks)">
 						<b-list-group-item class="d-none d-md-block">
 							<b-row align-h="center">
 								<b-col cols="12" md="2" v-for="(heading, index) in ['Move Name', 'Accuracy', 'PP', 'Power', 'Move Type']" :key="index" :class="index + 1 < 5 ? 'border-right text-center' : 'text-center'">
@@ -55,7 +55,7 @@
 									<b-col cols="12" md="2" class="border-right text-center">
 										<b-link :to="{name: 'MoveDetails', params: {move: relatedToPokemon ? move.move.name : move.name}}">
 											<span class="font-weight-bold">
-												{{ formatName(relatedToPokemon ? move.move.name : move.name) }}
+												{{ formatText(relatedToPokemon ? move.move.name : move.name) }}
 											</span>
 										</b-link>
 									</b-col>
@@ -119,6 +119,8 @@
 </template>
 
 <script>
+import FormatText from '@/mixins/FormatText'
+import IsEmpty from '@/mixins/IsEmpty'
 import AppPokemonTypeBadge from './AppPokemonTypeBadge'
 import _ from 'lodash'
 import ServiceMove from './ServiceMove'
@@ -140,6 +142,7 @@ export default {
 			default: true
 		}
 	},
+	mixins: [IsEmpty, FormatText],
 	data () {
 		return {
 			currentMoveChunk: 0,
@@ -164,7 +167,7 @@ export default {
 			}
 		},
 		availableLearnMethods () {
-			if (this.moves.length > 0 && this.relatedToPokemon) {
+			if (!this.isEmpty(this.moves) && this.relatedToPokemon) {
 				const learnMethods = []
 				this.moves.forEach (
 					move => {
@@ -183,7 +186,7 @@ export default {
 			}
 		},
 		availableGames () {
-			if (this.moves.length > 0 && this.relatedToPokemon) {
+			if (!this.isEmpty(this.moves) && this.relatedToPokemon) {
 				const games = []
 				this.moves.forEach (
 					move => {
@@ -202,7 +205,7 @@ export default {
 			}
 		},
 		filteredMoves () {
-			if (this.moves.length > 0 && this.relatedToPokemon) {
+			if (!this.isEmpty (this.moves) && this.relatedToPokemon) {
 				if (this.selectedGame && !this.selectedLearnMethod) {
 					return this.moves.filter (
 						move => move.version_group_details.find (
@@ -225,14 +228,14 @@ export default {
 				} else {
 					return this.moves
 				}
-			} else if (this.moves.length > 0 && !this.relatedToPokemon){
+			} else if (!this.isEmpty (this.moves) && !this.relatedToPokemon){
 				return this.moves
 			} else {
 				return []
 			}
 		},
 		moveChunks () {
-			if (this.filteredMoves.length > 0) {
+			if (!this.isEmpty(this.filteredMoves)) {
 				return _.chunk (this.filteredMoves, 5)
 			} else {
 				return []
@@ -249,9 +252,6 @@ export default {
 			if (this.canRecede) {
 				this.currentMoveChunk--
 			}
-		},
-		formatName (text) {
-			return _.capitalize (_.replace (text, '-', ' '))
 		},
 		levelUpInfo (moveName) {
 			const move = this.moves.find (move => move.move.name === moveName)

@@ -1,6 +1,6 @@
 <template>
 	<service-pokemon v-slot @success="ability = $event" operation="getAbility" :pokemonAbilityIdentifier="$route.params.ability">
-		<b-row v-if="ability && Object.keys (ability).length > 0" align-h="center">
+		<b-row v-if="ability && !isEmpty(ability)" align-h="center">
 			<b-col cols="12" md="10" lg="9" xl="8">
 				<b-card no-body>
 					<b-card-header>
@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import IsEmpty from '@/mixins/IsEmpty'
 import AppPokemonList from './AppPokemonList'
 import AppPokemonDescriptionPicker from './AppPokemonDescriptionPicker'
 import ServicePokemon from './ServicePokemon'
@@ -65,6 +66,7 @@ export default {
 		AppPokemonDescriptionPicker,
 		AppPokemonList
 	},
+	mixins: [IsEmpty],
 	data () {
 		return {
 			ability: {}
@@ -72,7 +74,7 @@ export default {
 	},
 	computed: {
 		abilityName () {
-			if (this.ability && Object.keys (this.ability).length > 0) {
+			if (this.ability && !this.isEmpty (this.ability)) {
 				return this.ability.names.find (
 					name => name.language.name === 'en'
 				).name
@@ -81,7 +83,7 @@ export default {
 			}
 		},
 		englishDescriptions () {
-			if (this.ability && Object.keys (this.ability).length > 0) {
+			if (this.ability && !this.isEmpty(this.ability)) {
 				return this.ability.flavor_text_entries.filter (
 					description => description.language.name === 'en'
 				)

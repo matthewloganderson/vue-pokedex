@@ -1,7 +1,7 @@
 <template>
 	<b-row>
 		<b-col>
-			<b-row v-if="Object.keys (pokemon).length > 0" align-v="center" align-h="center">
+			<b-row v-if="!isEmpty(pokemon)" align-v="center" align-h="center">
 				<b-col class="text-center text-md-left" cols="12" md="auto" lg="auto" xl="auto">
 					<b-badge variant="dark" class="rounded mb-0 pb-0">
 						<h6 class="mb-1">
@@ -16,7 +16,7 @@
 					<h2 class="text-center text-md-left">
 						{{ pokemon.name }}
 					</h2>
-					<h5 v-if="Object.keys (species).length > 0" class="text-muted text-center text-md-left">
+					<h5 v-if="!isEmpty (species)" class="text-muted text-center text-md-left">
 						{{ species.description }}
 					</h5>
 					<h6>
@@ -37,12 +37,14 @@
 </template>
 
 <script>
+import IsEmpty from '@/mixins/IsEmpty'
 import AppPokemonTypeBadge from './AppPokemonTypeBadge'
 export default {
 	name: 'AppPokemonBasicDetails',
 	components: {
 		AppPokemonTypeBadge
 	},
+	mixins: [IsEmpty],
 	props: {
 		pokemon: {
 			type: Object, 

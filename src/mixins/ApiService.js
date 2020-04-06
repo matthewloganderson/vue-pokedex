@@ -1,4 +1,3 @@
-import _ from 'lodash'
 export default {
 	props: {
 		operation: {
@@ -13,30 +12,21 @@ export default {
 		}
 	},
 	mounted() {
-		if (!this.requiresUserInput()) {
+		if (this.operation) {
 			this.performOperation()
 		}
 	},
 	watch: {
 		operation: function() {
-			if (!this.requiresUserInput()) {
-				this.performOperation()
-			}
+			this.performOperation()
 		}
 	},
 	methods: {
-		requiresUserInput() {
-			if (!_.startsWith(this.operation, 'get')) {
-				return true
-			} else {
-				return false
-			}
-		},
 		handleError(
 			error,
 			notifyUser = true,
 			type = 'modal',
-			feedback = 'There was a problem loading the details you requested, please try again. If the problem persists, please contact customer support.',
+			feedback = 'Sorry, Professor Oak is not familiar with that. Also, are you a boy or a girl?',
 			parameters = {
 				title: 'Something went wrong',
 				centered: true,
