@@ -81,35 +81,51 @@ export default {
 		this.getTypeData()
 	},
 	computed: {
+		formatAllTypes () {
+			return _.map (_.cloneDeep (this.typeData), 'name')
+		},
+		typesQty () {
+			if (!_.isEmpty (this.type1) && !_.isEmpty (this.type2)) {
+				return 2
+			} else if (!_.isEmpty (this.type1) && _.isEmpty (this.type2)) {
+				return 1
+			} else {
+				return 0
+			}
+		},
 		damageClasses () {
-			const allTypes = _.map (_.cloneDeep (this.typeData), 'name')
-			if (Object.keys (this.type1).length > 0 && Object.keys (this.type2).length > 0) {
-				const damageClasses = {
-					weakTo: [],
-					resistantTo: [], 
-					neutralTo: []
-				}
+			const allTypes = this.formatAllTypes;
+			if (this.typesQty > 1) {
+				const neutralTo = []
 				const type1 = this.type1.damage_relations
 				const type2 = this.type2.damage_relations
-				damageClasses.weakTo = _.uniq(_.map(type1.double_damage_from.concat(type2.double_damage_from), 'name'))
-				damageClasses.resistantTo = _.uniq(_.map (type1.half_damage_from.concat (type1.no_damage_from, type2.half_damage_from, type2.no_damage_from), 'name'))
-				damageClasses.weakTo.forEach (
+				//combine weaknesses from each type
+				const weakTo = this.mapTypeData (type1.double_damage_from, type2.double_damage_from)
+				//combine resistances from each type
+				const resistantTo = this.mapTypeData (
+					type1.half_damage_from, type1.no_damage_from, type2.half_damage_from, type2.no_damage_from
+				)
+				//find overlap between each type's weaknesses and resistances, add to neutralTo
+				weakTo.forEach (
 					weakness => {
-						if (damageClasses.resistantTo.find (resistance => resistance === weakness)) {
-							damageClasses.neutralTo.push (weakness)
+						if (resistantTo.find (resistance => resistance === weakness)) {
+							neutralTo.push (weakness)
 						}
 					}
 				)
-				const nonRepresentedTypes = _.difference (allTypes, damageClasses.weakTo.concat (damageClasses.neutralTo, damageClasses.resistantTo))
+				const nonRepresentedTypes = _.difference (allTypes, weakTo.concat (neutralTo, resistantTo))
 				return {
-					weakTo: _.difference (damageClasses.weakTo, damageClasses.neutralTo),
-					resistantTo: _.difference (damageClasses.resistantTo, damageClasses.neutralTo),
-					neutralTo: damageClasses.neutralTo.concat (nonRepresentedTypes)
+					//return only weaknesses
+					weakTo: _.difference (weakTo, neutralTo),
+					//return only resistances
+					resistantTo: _.difference (resistantTo, neutralTo),
+					//combine existing neutralTo types (those types where one of the pokemon's types is resistant and the other is weak) with types that were not represented in either resistances or weaknesses
+					neutralTo: neutralTo.concat (nonRepresentedTypes)
 				}
-			} else if (Object.keys (this.type1).length > 0 && Object.keys (this.type2).length < 1) {
+			} else if (this.typesQty === 1) {
 				const type1 = this.type1.damage_relations
-				const weakTo = _.map (type1.double_damage_from, 'name')
-				const resistantTo = _.map(type1.half_damage_from.concat (type1.no_damage_from), 'name')
+				const weakTo = this.mapTypeData (type1.double_damage_from)
+				const resistantTo = this.mapTypeData (type1.no_damage_from, type1.half_damage_from)
 				const nonRepresentedTypes = _.difference (allTypes, resistantTo.concat (weakTo))
 				return {
 					weakTo: weakTo,
@@ -137,6 +153,11 @@ export default {
 					await this.getType (this.relatedToPokemon ? this.types[1].type.name : this.types[1], 'type2')
 				}
 			}
+		},
+		mapTypeData (...types) {
+			const combined = _.concat (...types)
+			const mapped = _.map (combined, 'name')
+			return _.uniq (mapped)
 		}
 	}
 }
