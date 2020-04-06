@@ -9,95 +9,35 @@
 									<app-pokemon-basic-details v-if="formattedDetails && formattedSpeciesDetails" :pokemon="formattedDetails" :species="formattedSpeciesDetails" />
 								</b-card-header>
 								<b-card-body>
-									<b-row>
-										<b-col>
-											<h5 class="pb-2 border-bottom">
-												About {{ formattedDetails.name }}
-											</h5>
-										</b-col>
-									</b-row>
-									<b-row class="mb-4">
-										<b-col>
-											<app-pokemon-description-picker v-if="formattedSpeciesDetails" :descriptions="formattedSpeciesDetails.longDescriptions" />
-										</b-col>
-									</b-row>
-									<b-row>
-										<b-col>
-											<app-pokemon-evolution-chain :currentPokemon="pokemonDetails.species.name" :evolutionChainUrl="formattedSpeciesDetails.evolutionChain" />
-										</b-col>
-									</b-row>
-									<b-row>
-										<b-col>
-											<h5 class="pb-2 border-bottom">
-												{{ formattedDetails.name }}'s Base Stats
-											</h5>
-										</b-col>
-									</b-row>
-									<b-row class="mb-4 mt-1">
-										<b-col>
-											<app-pokemon-stats v-if="formattedDetails" :stats="formattedDetails.stats" />
-										</b-col>
-									</b-row>
-									<b-row>
-										<b-col>
-											<h5 class="pb-2 border-bottom">
-												{{ formattedDetails.name }}'s Abilities
-											</h5>
-										</b-col>
-									</b-row>
-									<b-row class="mb-4">
-										<b-col>
-											<app-pokemon-abilities v-if="formattedDetails" :abilities="formattedDetails.abilities" />
-										</b-col>
-									</b-row>
-									<b-row class="mb-3">
-										<b-col>
-											<h5 class="pb-2 border-bottom">
-												Moves {{ formattedDetails.name }} Can Learn
-											</h5>
-										</b-col>
-									</b-row>
-									<b-row class="mb-4">
-										<b-col>
-											<app-pokemon-moves v-if="formattedDetails" :moves="formattedDetails.moves" />
-										</b-col>
-									</b-row>
-									<b-row class="mb-3">
-										<b-col>
-											<h5 class="pb-2 border-bottom">
+									<app-section-heading>
+										About {{ formattedDetails.name }}
+									</app-section-heading>
+									<app-pokemon-description-picker class="mb-4" v-if="formattedSpeciesDetails" :descriptions="formattedSpeciesDetails.longDescriptions" />
+									<app-pokemon-evolution-chain class="mb-4" :currentPokemon="pokemonDetails.species.name" :evolutionChainUrl="formattedSpeciesDetails.evolutionChain" />
+									<app-section-heading>
+										{{ formattedDetails.name }}'s Base Stats
+									</app-section-heading>
+									<app-pokemon-stats class="mb-4 mt-1" v-if="formattedDetails" :stats="formattedDetails.stats" />
+									<app-section-heading>
+										{{ formattedDetails.name }}'s Abilities
+									</app-section-heading>
+									<app-pokemon-abilities class="mb-4" v-if="formattedDetails" :abilities="formattedDetails.abilities" />
+									<app-section-heading class="mb-3">
+										Moves {{ formattedDetails.name }} Can Learn
+									</app-section-heading>
+									<app-pokemon-moves class="mb-4" v-if="formattedDetails" :moves="formattedDetails.moves" />
+									<app-section-heading class="mb-3">
 												{{ formattedDetails.name }}'s Appearance
-											</h5>
-										</b-col>
-									</b-row>
-									<b-row class="mb-4">
-										<b-col>
-											<app-pokemon-appearance v-if="formattedDetails" :sprites="formattedDetails.sprites" />
-										</b-col>
-									</b-row>
-									<b-row class="mb-2" v-if="formattedSpeciesDetails && formattedSpeciesDetails.variants.length > 1">
-										<b-col>
-											<h5 class="pb-2 border-bottom">
-												{{ formattedDetails.name }}'s Forms
-											</h5>
-										</b-col>
-									</b-row>
-									<b-row class="mb-4" v-if="formattedSpeciesDetails && formattedSpeciesDetails.variants.length > 1">
-										<b-col>
-											<app-pokemon-variants-picker :variants="formattedSpeciesDetails.variants" />
-										</b-col>
-									</b-row>
-									<b-row class="mb-2" v-if="formattedDetails && formattedDetails.types.length > 0">
-										<b-col>
-											<h5 class="pb-2 border-bottom">
-												{{ formattedDetails.name }}'s Weaknesses & Resistances
-											</h5>
-										</b-col>
-									</b-row>
-									<b-row class="mb-4" v-if="formattedDetails && formattedDetails.types.length > 0">
-										<b-col>
-											<app-pokemon-damage-classes :types="formattedDetails.types" />
-										</b-col>
-									</b-row>
+									</app-section-heading>
+									<app-pokemon-appearance class="mb-4" v-if="formattedDetails" :sprites="formattedDetails.sprites" />
+									<app-section-heading v-if="formattedSpeciesDetails && formattedSpeciesDetails.variants.length > 1">
+										{{ formattedDetails.name }}'s Forms
+									</app-section-heading>
+									<app-pokemon-variants-picker class="mb-4" v-if="formattedSpeciesDetails && formattedSpeciesDetails.variants.length > 1" :variants="formattedSpeciesDetails.variants" />
+									<app-section-heading>
+										{{ formattedDetails.name }}'s Weaknesses & Resistances
+									</app-section-heading>
+									<app-pokemon-damage-classes class="mb-4" v-if="formattedDetails && !isEmpty (formattedDetails.types)" :types="formattedDetails.types" />
 								</b-card-body>
 							</b-card>
 						</div>
@@ -108,6 +48,8 @@
 </template>
 
 <script>
+import IsEmpty from '@/mixins/IsEmpty'
+import AppSectionHeading from './AppSectionHeading'
 import AppPokemonDamageClasses from './AppPokemonDamageClasses'
 import AppPokemonEvolutionChain from './AppPokemonEvolutionChain'
 import AppPokemonVariantsPicker from './AppPokemonVariantsPicker'
@@ -133,8 +75,12 @@ export default {
 		AppPokemonAppearance,
 		AppPokemonVariantsPicker,
 		AppPokemonEvolutionChain,
-		AppPokemonDamageClasses
+		AppPokemonDamageClasses,
+		AppSectionHeading
 	},
+	mixins: [
+		IsEmpty
+	],
 	data () {
 		return {
 			pokemonDetails: null,
