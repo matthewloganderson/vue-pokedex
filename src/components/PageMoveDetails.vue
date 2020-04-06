@@ -1,6 +1,6 @@
 <template>
-	<service-move v-slot @success="move = $event" :moveIdentifier="$route.params.move" operation="getMove">
-		<b-row v-if="move && !isEmpty (move)" align-h="center">
+	<service-move v-slot="{loading}" @success="move = $event" :moveIdentifier="$route.params.move" operation="getMove">
+		<b-row v-if="move && !isEmpty (move) && !loading" align-h="center">
 			<b-col cols="12" md="10" lg="9" xl="8">
 				<b-card no-body>
 					<b-card-header>
@@ -56,10 +56,12 @@
 				</b-card>
 			</b-col>
 		</b-row>
+		<app-loading v-else />
 	</service-move>
 </template>
 
 <script>
+import AppLoading from './AppLoading'
 import FormatText from '@/mixins/FormatText'
 import IsEmpty from '@/mixins/IsEmpty'
 import AppMoveEffects from './AppMoveEffects'
@@ -74,7 +76,8 @@ export default {
 		AppPokemonDescriptionPicker,
 		AppPokemonTypeBadge,
 		AppMoveStats,
-		AppMoveEffects
+		AppMoveEffects,
+		AppLoading
 	},
 	mixins: [FormatText, IsEmpty],
 	data () {

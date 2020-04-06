@@ -1,6 +1,6 @@
 <template>
-	<service-pokemon v-slot @success="ability = $event" operation="getAbility" :pokemonAbilityIdentifier="$route.params.ability">
-		<b-row v-if="ability && !isEmpty(ability)" align-h="center">
+	<service-pokemon v-slot="{loading}" @success="ability = $event" operation="getAbility" :pokemonAbilityIdentifier="$route.params.ability">
+		<b-row v-if="ability && !isEmpty(ability) && !loading" align-h="center">
 			<b-col cols="12" md="10" lg="9" xl="8">
 				<b-card no-body>
 					<b-card-header>
@@ -51,10 +51,12 @@
 				</b-card>
 			</b-col>
 		</b-row>
+		<app-loading v-else />
 	</service-pokemon>
 </template>
 
 <script>
+import AppLoading from './AppLoading'
 import IsEmpty from '@/mixins/IsEmpty'
 import AppPokemonList from './AppPokemonList'
 import AppPokemonDescriptionPicker from './AppPokemonDescriptionPicker'
@@ -64,7 +66,8 @@ export default {
 	components: {
 		ServicePokemon,
 		AppPokemonDescriptionPicker,
-		AppPokemonList
+		AppPokemonList,
+		AppLoading
 	},
 	mixins: [IsEmpty],
 	data () {
