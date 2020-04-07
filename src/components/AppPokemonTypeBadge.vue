@@ -1,5 +1,5 @@
 <template>
-	<b-link v-if="typeDetails" :to="toType" class="mr-2">
+	<b-link v-if="typeDetails" :to="{name: 'TypeDetails', params: {type: typeDetails.name}}" class="mr-2">
 		<b-badge :style="`background-color: ${typeDetails.color}`" class="p-2">
 			<font-awesome-icon v-if="typeDetails.icon" :icon="typeDetails.icon" class="mr-1" />
 			{{ formatText (typeDetails.name) }}
@@ -31,18 +31,6 @@ export default {
 				return null
 			}
 		},
-		toType () {
-			if (this.typeDetails) {
-				return {
-					name: 'TypeDetails', 
-					params: {
-						type: this.typeDetails.name
-					}
-				}
-			} else {
-				return null
-			}
-		}
 	},
 }
 </script>
