@@ -7,7 +7,7 @@
 						<b-col>
 							<b-link :to="{name: 'AbilityDetails', params: {ability: ability.ability.name}}">
 								<h6 class="font-weight-bold">
-									{{ removeHyphenCapitalize(ability.ability.name) }}
+									{{ formatText(ability.ability.name) }}
 								</h6>
 							</b-link>
 							<p v-if="!isEmpty(abilityDetails)">
@@ -38,16 +38,16 @@
 </template>
 
 <script>
+import FormatText from '@/mixins/FormatText'
 import ToggleCollapse from '@/mixins/ToggleCollapse'
 import IsEmpty from '@/mixins/IsEmpty'
-import _ from 'lodash'
 import ServicePokemon from './ServicePokemon'
 export default {
 	name: 'AppPokemonAbilities',
 	components: {
 		ServicePokemon
 	},
-	mixins: [IsEmpty, ToggleCollapse],
+	mixins: [IsEmpty, ToggleCollapse, FormatText],
 	props: {
 		abilities: {
 			type: Array,
@@ -56,11 +56,6 @@ export default {
 			},
 		}
 	},
-	methods: {
-		removeHyphenCapitalize (text) {
-			return _.capitalize (_.replace (text, '-', ' '))
-		},
-	}
 }
 </script>
 
