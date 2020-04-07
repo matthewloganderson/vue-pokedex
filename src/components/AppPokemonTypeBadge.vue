@@ -25,8 +25,7 @@ export default {
 	},
 	computed: {
 		typeDetails () {
-			const pokemonType = this.pokemonType
-			if (pokemonType) {
+			if (this.pokemonType) {
 				return this.types.find (type => type.name == this.pokemonType)
 			} else {
 				return null
