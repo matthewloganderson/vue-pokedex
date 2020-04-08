@@ -52,15 +52,15 @@
 				</b-card>
 			</b-col>
 		</service-move>
-		<b-col data-testid="ailments" class="mb-3" cols="12" md="4" xl="3">
+		<b-col class="mb-3" cols="12" md="4" xl="3">
 			<b-card class="text-center h-100">
 				<h6>
 					Inflicted Ailments
 				</h6>
-				<span v-if="move.meta.ailment.name != 'none'">
+				<span data-testid="ailments-header" v-if="move.meta.ailment.name != 'none'">
 					{{ move.meta.ailment_chance }}% chance of inflicting
 				</span>
-				<span>
+				<span data-testid="ailments-name">
 					{{ formatText(move.meta.ailment.name) }}
 				</span>
 			</b-card>
