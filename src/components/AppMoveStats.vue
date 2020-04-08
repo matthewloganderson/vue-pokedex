@@ -1,6 +1,6 @@
 <template>
-	<b-row class="mt-2">
-		<b-col class="mb-3" cols="12" md="4" xl="3" v-if="move.power">
+	<b-row class="mt-2" v-if="!isEmpty (move)">
+		<b-col data-testid="power" class="mb-3" cols="12" md="4" xl="3" v-if="move.power">
 			<b-card class="text-center h-100">
 				<h6>
 					Power
@@ -10,7 +10,7 @@
 				</span>
 			</b-card>
 		</b-col>
-		<b-col class="mb-3" cols="12" md="4" xl="3" v-if="move.pp">
+		<b-col data-testid="pp" class="mb-3" cols="12" md="4" xl="3" v-if="move.pp">
 			<b-card class="text-center h-100">
 				<h6>
 					PP
@@ -20,7 +20,7 @@
 				</span>
 			</b-card>
 		</b-col>
-		<b-col class="mb-3" cols="12" md="4" xl="3" v-if="move.accuracy">
+		<b-col data-testid="accuracy" class="mb-3" cols="12" md="4" xl="3" v-if="move.accuracy">
 			<b-card class="text-center h-100">
 				<h6>
 					Accuracy
@@ -30,7 +30,7 @@
 				</span>
 			</b-card>
 		</b-col>
-		<b-col class="mb-3" cols="12" md="4" xl="3" v-if="move.accuracy">
+		<b-col data-testid="damage_type" class="mb-3" cols="12" md="4" xl="3" v-if="move.damage_class.name">
 			<b-card class="text-center h-100">
 				<h6>
 					Damage Type
@@ -52,7 +52,7 @@
 				</b-card>
 			</b-col>
 		</service-move>
-		<b-col class="mb-3" cols="12" md="4" xl="3">
+		<b-col data-testid="ailments" class="mb-3" cols="12" md="4" xl="3">
 			<b-card class="text-center h-100">
 				<h6>
 					Inflicted Ailments
