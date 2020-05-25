@@ -1,4 +1,4 @@
-# athena
+# Vue-Pokedex
 
 ## Project setup
 ```
